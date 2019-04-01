@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="wrap_content">
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Subject name"
+            android:id="@+id/subjectName"
+              android:textColor="@color/colorPrimary"
+              android:textSize="18sp"
+              android:layout_marginTop="16dp"
+              android:layout_marginStart="32dp"
+              android:textStyle="bold"
+    />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Topics"
+              android:id="@+id/eachSubjectTopics"
+              android:layout_marginStart="32sp"
+              android:layout_marginTop="8sp"
+    />
+    <View android:layout_width="match_parent" android:layout_height="2dp"
+          android:layout_marginTop="16dp"
+
+    android:background="@color/colorAccent"/>
+
+</LinearLayout>

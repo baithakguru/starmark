@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        android:id="@+id/rootSearch"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.newGroup.SelectMembers.SelectContacts">
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/searchContactsActionbar"
+
+            app:titleTextColor="#ffffff"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    >
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="New Group"
+                      android:textColor="#ffffff"
+            android:textSize="18sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Selected 0 of b"
+                      android:id="@+id/selectedCountToolbar"
+                      android:textColor="#ffffff"
+
+            />
+
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_below="@id/searchContactsActionbar"
+            android:layout_height="100dp"
+            android:text="No Contacts Selected\nPlease Select Contacts to Proceed"
+            android:textSize="18sp"
+            android:gravity="center"/>
+    <android.support.v7.widget.RecyclerView android:layout_width="match_parent"
+                                            android:layout_height="120dp"
+    android:layout_below="@id/searchContactsActionbar"
+                                            android:id="@+id/selectedRecycler"
+    />
+
+    <View android:layout_width="match_parent" android:layout_height="3dp"
+          android:layout_below="@id/selectedRecycler"
+    android:layout_marginTop="8dp"
+          android:background="@color/colorAccent"
+          android:layout_marginHorizontal="25dp"
+    />
+
+    <android.support.v7.widget.RecyclerView
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="19dp"
+            android:layout_width="match_parent"
+            android:id="@+id/allContactsRecycler"
+                                            android:layout_below="@id/selectedRecycler"
+                                            android:layout_height="match_parent"/>
+
+
+    <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:id="@+id/fabFinalizeGroup"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:src="@drawable/ic_navigate_next_black_24dp"
+                                                        android:layout_alignParentEnd="true"
+                                                        android:layout_alignParentBottom="true"
+                                                        android:layout_margin="25dp"
+    />
+
+</RelativeLayout>
