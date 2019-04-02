@@ -15,8 +15,20 @@
       },
       "oauth_client": [
         {
-          "client_id": "972639813834-cqh9gh1fh8807qmnpsu3ml31a5690tl3.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "972639813834-squub0uatna734v2hrkph0m9j79msrp4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "guru.baithak.starmark",
+            "certificate_hash": "d312174ef60136c72ea1877ea12b60baf53a8d59"
+          }
+        },
+        {
+          "client_id": "972639813834-pflkipiucvs3qbc4bak625dhtek8m64c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "guru.baithak.starmark",
+            "certificate_hash": "9c5d1d3987ff04fd94b04014f736c6ff1c84a6a8"
+          }
         }
       ],
       "api_key": [
@@ -25,15 +37,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "972639813834-cqh9gh1fh8807qmnpsu3ml31a5690tl3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

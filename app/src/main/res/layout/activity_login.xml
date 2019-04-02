@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:id="@+id/loginRoot"
         android:layout_width="match_parent"
         android:layout_height="match_parent" xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -25,23 +26,24 @@
                   android:layout_marginBottom="125dp"
     >
 
-        <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
-                                                       android:layout_height="wrap_content"
-        android:padding="4dp">
-            <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:hint="Name"
+       <TextView
 
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_margin="16dp"
+           android:gravity="center"
+           android:visibility="invisible"
+           android:textSize="18sp"
+           android:id="@+id/usernameLogin"
+           android:text="Welcome back \n username"/>
 
-            />
-
-        </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
                                                        android:layout_height="wrap_content"
         android:padding="4dp">
             <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:hint="Phone Number"
-
+                                         android:id="@+id/loginPhone"
                       android:inputType="phone"
 
 
@@ -52,7 +54,9 @@
                                                        android:layout_height="wrap_content"
  android:padding="4dp">
             <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:hint="Password/OTP"
+                      android:hint="OTP"
+                android:visibility="gone"
+                android:id="@+id/loginOtp"
 
 
             />
@@ -61,7 +65,7 @@
 
         <Button android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Login"
+                android:text="Next"
                 android:textColor="#ffffff"
                 android:background="@drawable/button"
                 android:id="@+id/loginButton"

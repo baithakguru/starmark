@@ -35,8 +35,14 @@ dependencies {
     //ui
     implementation 'de.hdodenhof:circleimageview:3.0.0'
 
-    // auth
+    //networking
+    implementation 'com.android.volley:volley:1.1.1'
+
+
+    // firebase
     implementation 'com.google.firebase:firebase-auth:16.2.0'
+    implementation 'com.google.firebase:firebase-database:16.1.0'
+    implementation 'com.google.firebase:firebase-storage:16.1.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

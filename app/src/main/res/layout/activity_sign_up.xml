@@ -1,4 +1,5 @@
 <RelativeLayout
+    android:id="@+id/signUpRoot"
 android:layout_width="match_parent"
 android:layout_height="match_parent" xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -64,7 +65,7 @@ android:layout_height="match_parent" xmlns:android="http://schemas.android.com/a
                                                            android:padding="4dp">
                 <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
                           android:hint="Name"
-
+                            android:id="@+id/signUpName"
 
                 />
 
@@ -75,7 +76,7 @@ android:layout_height="match_parent" xmlns:android="http://schemas.android.com/a
                                                            android:padding="4dp">
                 <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
                           android:hint="Phone Number"
-
+                            android:id="@+id/signUpPhone"
                           android:inputType="phone"
 
 
@@ -87,7 +88,8 @@ android:layout_height="match_parent" xmlns:android="http://schemas.android.com/a
                                                            android:padding="4dp">
                 <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
                           android:hint="Password/OTP"
-
+                        android:id="@+id/signUpOtp"
+                    android:visibility="gone"
 
                 />
 
@@ -98,7 +100,7 @@ android:layout_height="match_parent" xmlns:android="http://schemas.android.com/a
                     android:text="Sign up"
                     android:textColor="#ffffff"
                     android:background="@drawable/button"
-
+                    android:id="@+id/signUpButton"
             />
         </LinearLayout>
 
