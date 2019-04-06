@@ -1,6 +1,7 @@
 package guru.baithak.starmark.ui.register
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -14,7 +15,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.database.FirebaseDatabase
+import guru.baithak.starmark.Helpers.sharedPref
 import guru.baithak.starmark.Helpers.userName
+import guru.baithak.starmark.Helpers.userNameSharedPref
 import guru.baithak.starmark.R
 import guru.baithak.starmark.ui.mainScreen.MainActivity
 import kotlinx.android.synthetic.main.activity_login.*
@@ -121,8 +124,10 @@ class SignUp : AppCompatActivity() {
 
 
     fun addUserToDatabase(){
-        var ref =FirebaseDatabase.getInstance().getReference("users/"+FirebaseAuth.getInstance().currentUser!!.uid)
-        var data = HashMap<String,Any>()
+        val ref =FirebaseDatabase.getInstance().getReference("users/"+FirebaseAuth.getInstance().currentUser!!.uid)
+        val data = HashMap<String,Any>()
+        getSharedPreferences(sharedPref, Context.MODE_PRIVATE).edit().putString(userNameSharedPref,signUpName.text.toString()).apply()
+
         data.put("name",signUpName.text.toString())
         data.put("phone",signUpPhone.text.toString())
         ref.setValue(data).addOnSuccessListener {

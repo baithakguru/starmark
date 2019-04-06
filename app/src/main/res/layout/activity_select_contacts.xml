@@ -23,7 +23,6 @@
                       android:textColor="#ffffff"
             android:textSize="18sp"/>
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="Selected 0 of b"
                       android:id="@+id/selectedCountToolbar"
                       android:textColor="#ffffff"
 
@@ -35,6 +34,7 @@
             android:layout_width="match_parent"
             android:layout_below="@id/searchContactsActionbar"
             android:layout_height="100dp"
+        android:id="@+id/errorNoContactSelected"
             android:text="No Contacts Selected\nPlease Select Contacts to Proceed"
             android:textSize="18sp"
             android:gravity="center"/>

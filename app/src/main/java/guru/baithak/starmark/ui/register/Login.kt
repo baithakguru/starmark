@@ -1,6 +1,7 @@
 package guru.baithak.starmark.ui.register
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -21,8 +22,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
+import guru.baithak.starmark.Helpers.sharedPref
 import guru.baithak.starmark.Helpers.userExistsUrl
 import guru.baithak.starmark.Helpers.userName
+import guru.baithak.starmark.Helpers.userNameSharedPref
 import guru.baithak.starmark.ui.mainScreen.MainActivity
 import guru.baithak.starmark.R
 import kotlinx.android.synthetic.main.activity_login.*
@@ -94,6 +97,7 @@ class Login : AppCompatActivity() {
                     val username: String = response.getString("name")
 
                     usernameLogin.text = "Welcome back \n" + username
+                    getSharedPreferences(sharedPref, Context.MODE_PRIVATE).edit().putString(userNameSharedPref,username).commit()
                     usernameLogin.visibility = View.VISIBLE
                 }
                 catch (e:Exception){

@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.Menu
+import android.view.View
 import guru.baithak.starmark.R
 import guru.baithak.starmark.Helpers.permissionContacts
 import guru.baithak.starmark.Helpers.selectedIntent
@@ -111,6 +112,12 @@ class SelectContacts : AppCompatActivity() {
             override fun personSelected(person: AdapterSelectContacts.Contact) {
 //                Toast.makeText(this@SelectContacts,person.name,Toast.LENGTH_LONG).show()
                 adapterForSelected.updateData(person)
+                if(adapterForSelected.itemCount==0){
+                    errorNoContactSelected.visibility = View.VISIBLE
+                }else{
+                    errorNoContactSelected.visibility = View.INVISIBLE
+
+                }
                 selectedCountToolbar.text = String.format("Selected %d of %d",adapterForSelected.itemCount,totalContacts)
 
             }
@@ -123,6 +130,7 @@ class SelectContacts : AppCompatActivity() {
         totalContacts = adapterAllContacts.itemCount
 
         allContactsRecycler.layoutManager = LinearLayoutManager(this)
+
         selectedCountToolbar.text = String.format("Selected %d of %d",0,totalContacts)
         fabFinalizeGroup.setOnClickListener{v->
             val i = Intent(this,NewGroup::class.java)
