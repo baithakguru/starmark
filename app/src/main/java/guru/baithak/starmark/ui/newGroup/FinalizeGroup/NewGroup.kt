@@ -6,8 +6,10 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v4.app.NavUtils
 import android.support.v7.widget.GridLayoutManager
 import android.util.Log
+import android.view.MenuItem
 import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
@@ -50,9 +52,11 @@ class NewGroup : AppCompatActivity() {
         selectedFinalizeRecycler.layoutManager = GridLayoutManager(this,3)
         finalSelectedCount.text = String.format("%d participants selected",data!!.size)
         fabAddGroupFinal.setOnClickListener{v->
-            if(groupTitleFinal.text.isEmpty() || groupDescriptionFinal.text.isEmpty()){
-                Snackbar.make(rootNewGroup,"Please enter all the fields",Snackbar.LENGTH_LONG).show()
+            if(groupTitleFinal.text.isEmpty() ){
+                groupTitleFinal.error = "Please enter a title"
                 return@setOnClickListener
+            }else{
+                groupTitleFinal.error=null
             }
             createGroup()
         }
@@ -75,7 +79,7 @@ class NewGroup : AppCompatActivity() {
         val allMembers = JSONArray()
         for(c:AdapterSelectContacts.Contact in data!!){
             val member = JSONObject()
-            member.put("name",c.name)
+            member.put("groupName",c.name)
 
             member.put("contact",c.number.replace(" ","").replace("-","").replace("+91",""))
             allMembers.put(member)
@@ -102,4 +106,17 @@ class NewGroup : AppCompatActivity() {
 
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        when(item!!.itemId){
+            android.R.id.home -> {
+//                Toast.makeText(this,"up",Toast.LENGTH_LONG).show()
+                // Respond to the action bar's Up/Home button
+//                NavUtils.navigateUpFromSameTask(this)
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }

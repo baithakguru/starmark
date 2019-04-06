@@ -39,7 +39,7 @@
             android:textSize="18sp"
             android:gravity="center"/>
     <android.support.v7.widget.RecyclerView android:layout_width="match_parent"
-                                            android:layout_height="120dp"
+                                            android:layout_height="100dp"
     android:layout_below="@id/searchContactsActionbar"
                                             android:id="@+id/selectedRecycler"
     />
@@ -47,6 +47,7 @@
     <View android:layout_width="match_parent" android:layout_height="3dp"
           android:layout_below="@id/selectedRecycler"
     android:layout_marginTop="8dp"
+        android:alpha=".25"
           android:background="@color/colorAccent"
           android:layout_marginHorizontal="25dp"
     />

@@ -97,11 +97,14 @@ class Login : AppCompatActivity() {
                     val username: String = response.getString("name")
 
                     usernameLogin.text = "Welcome back \n" + username
+                    usernameLogin.visibility = View.VISIBLE
                     getSharedPreferences(sharedPref, Context.MODE_PRIVATE).edit().putString(userNameSharedPref,username).commit()
                     usernameLogin.visibility = View.VISIBLE
                 }
                 catch (e:Exception){
 
+                    Log.i("Exception",e.toString())
+                    Log.i("Exception",response.toString())
                 }
                 showProgress("Generating OTP....")
 

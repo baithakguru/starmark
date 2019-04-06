@@ -3,9 +3,10 @@ package guru.baithak.starmark.Models
 import android.os.Parcel
 import android.os.Parcelable
 import java.util.*
-import guru.baithak.starmark.Models.Topic
 
-class Groups(var name : String, var isMuted:Boolean,var member:String, var lastActive: String,var notify:Boolean,var topics:ArrayList<Topic> = ArrayList()):Parcelable{
+class Groups(var groupName : String?=null, var isMuted:Boolean?=false, var member:String?=null, var lastActive: String?=null, var notify:Boolean?=false, var topics:ArrayList<Topic> = ArrayList(), var groupKey:String?=null):Parcelable{
+
+
 
 
     constructor(parcel: Parcel) : this(
@@ -24,11 +25,11 @@ class Groups(var name : String, var isMuted:Boolean,var member:String, var lastA
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(name)
-        parcel.writeByte(if (isMuted) 1 else 0)
+        parcel.writeString(groupName)
+        parcel.writeByte(if (isMuted!!) 1 else 0)
         parcel.writeString(member)
         parcel.writeString(lastActive)
-        parcel.writeByte(if (notify) 1 else 0)
+        parcel.writeByte(if (notify!!) 1 else 0)
         parcel.writeList(topics)
     }
 

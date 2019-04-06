@@ -9,10 +9,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import guru.baithak.starmark.R
 import java.util.*
 
 class AdapterSelectContacts(var C:Context, val contacts:ArrayList<Contact>, val callback: ContactSelectedCallback): RecyclerView.Adapter<AdapterSelectContacts.Views>() {
+
+    companion object {
+        var selected:Int =0
+    }
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): Views {
 
@@ -47,9 +52,15 @@ class AdapterSelectContacts(var C:Context, val contacts:ArrayList<Contact>, val 
 
             root.setOnClickListener{v->
                 if(!(root.tag as Contact).selected){
+                    if(AdapterSelectContacts.selected >=5){
+                        Toast.makeText(C,"Max users selected",Toast.LENGTH_LONG).show()
+                        return@setOnClickListener
+                    }
+                    AdapterSelectContacts.selected++
                     v.setBackgroundColor(getColor(C.resources,R.color.colorSelected,null))
                     (root.tag as Contact).selected =true
                 }else{
+                    AdapterSelectContacts.selected--
                     v.setBackgroundColor(getColor(C.resources,R.color.white,null))
                     (root.tag as Contact).selected =false
 

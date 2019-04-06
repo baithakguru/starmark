@@ -128,7 +128,7 @@ class SignUp : AppCompatActivity() {
         val data = HashMap<String,Any>()
         getSharedPreferences(sharedPref, Context.MODE_PRIVATE).edit().putString(userNameSharedPref,signUpName.text.toString()).apply()
 
-        data.put("name",signUpName.text.toString())
+        data.put("groupName",signUpName.text.toString())
         data.put("phone",signUpPhone.text.toString())
         ref.setValue(data).addOnSuccessListener {
             dismissProgress()

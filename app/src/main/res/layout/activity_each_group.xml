@@ -21,6 +21,7 @@
             <ImageView android:layout_width="?attr/actionBarSize" android:layout_height="?attr/actionBarSize"
                        android:src="@drawable/ic_arrow_back_black_24dp"
                        android:padding="15dp"
+                android:id="@+id/falseUp"
                        android:layout_marginHorizontal="-16dp"
             />
             <de.hdodenhof.circleimageview.CircleImageView
@@ -30,7 +31,7 @@
                     android:layout_height="?attr/actionBarSize"
             android:src="@color/colorAccent"/>
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical"
-
+                android:layout_gravity="center_vertical"
             >
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:text="Group Name"
@@ -39,6 +40,7 @@
                           android:textSize="18sp"/>
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:text="Group members"
+                    android:visibility="gone"
                           android:textColor="#ffffff"
                           android:id="@+id/groupMembersEachGroup"
                 />

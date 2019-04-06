@@ -3,6 +3,7 @@ package guru.baithak.starmark.ui.mainScreen.Groups
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.NavUtils
 import android.view.MenuItem
 import android.widget.Toast
 import guru.baithak.starmark.ui.mainScreen.Calls.Calls
@@ -36,6 +37,10 @@ class EachGroup : AppCompatActivity() {
 
     fun viewSetter(){
         val b = Bundle()
+        falseUp.setOnClickListener{v->
+            NavUtils.navigateUpFromSameTask(this)
+
+        }
         b.putParcelable(groupName,group)
         eachGroupBottomNav.setOnNavigationItemSelectedListener{menu:MenuItem->
             when(menu.itemId){
@@ -59,7 +64,7 @@ class EachGroup : AppCompatActivity() {
             return@setOnNavigationItemSelectedListener true
 
         }
-        groupNameEachGroup.text = group!!.name
+        groupNameEachGroup.text = group!!.groupName
         groupMembersEachGroup.text = group!!.member
 //        Toast.makeText(this,"Size :"+group!!.topics.size,Toast.LENGTH_SHORT ).show()
 //        eachTopicRecycler.adapter = TopicListAdapter(this,group!!.topics)
@@ -70,5 +75,7 @@ class EachGroup : AppCompatActivity() {
         supportFragmentManager.beginTransaction().replace(R.id.eachTopicFragment,frag).commit()
 
     }
+
+
 
 }

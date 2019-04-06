@@ -18,11 +18,23 @@
         tools:ignore="GoogleAppIndexingWarning">
 
 
-        <activity android:name=".ui.mainScreen.Groups.EachGroup">
+        <activity android:name=".ui.mainScreen.Groups.EachGroup"
+            android:parentActivityName=".ui.mainScreen.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.mainScreen.MainActivity" />
         </activity>
-        <activity android:name=".ui.newGroup.SelectMembers.SelectContacts">
+        <activity android:name=".ui.newGroup.SelectMembers.SelectContacts"
+            android:parentActivityName=".ui.mainScreen.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.mainScreen.MainActivity" />
         </activity>
-        <activity android:name=".ui.newGroup.FinalizeGroup.NewGroup">
+        <activity android:name=".ui.newGroup.FinalizeGroup.NewGroup"
+            android:parentActivityName=".ui.mainScreen.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.mainScreen.MainActivity" />
         </activity>
         <activity
             android:name=".ui.register.SignUp"

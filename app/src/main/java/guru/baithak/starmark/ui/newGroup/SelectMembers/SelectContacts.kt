@@ -11,11 +11,14 @@ import android.os.Bundle
 import android.provider.ContactsContract
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
+import android.support.v4.app.NavUtils
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import guru.baithak.starmark.R
 import guru.baithak.starmark.Helpers.permissionContacts
 import guru.baithak.starmark.Helpers.selectedIntent
@@ -110,7 +113,7 @@ class SelectContacts : AppCompatActivity() {
     fun viewSetter(){
         var callback = object : ContactSelectedCallback {
             override fun personSelected(person: AdapterSelectContacts.Contact) {
-//                Toast.makeText(this@SelectContacts,person.name,Toast.LENGTH_LONG).show()
+//                Toast.makeText(this@SelectContacts,person.groupName,Toast.LENGTH_LONG).show()
                 adapterForSelected.updateData(person)
                 if(adapterForSelected.itemCount==0){
                     errorNoContactSelected.visibility = View.VISIBLE
@@ -124,14 +127,14 @@ class SelectContacts : AppCompatActivity() {
         }
 
         progress!!.dismiss()
-        Snackbar.make(rootSearch,"Trying adapter",Snackbar.LENGTH_LONG).show()
+//        Snackbar.make(rootSearch,"Trying adapter",Snackbar.LENGTH_LONG).show()
         var  adapterAllContacts = AdapterSelectContacts(this, contacts, callback)
         allContactsRecycler.adapter = adapterAllContacts
         totalContacts = adapterAllContacts.itemCount
 
         allContactsRecycler.layoutManager = LinearLayoutManager(this)
 
-        selectedCountToolbar.text = String.format("Selected %d of %d",0,totalContacts)
+        selectedCountToolbar.text = String.format("Selected %d from %d",0,totalContacts)
         fabFinalizeGroup.setOnClickListener{v->
             val i = Intent(this,NewGroup::class.java)
             i.putParcelableArrayListExtra(selectedIntent,adapterForSelected.selected)
@@ -158,7 +161,18 @@ class SelectContacts : AppCompatActivity() {
         return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
+        when(item!!.itemId){
+            android.R.id.home -> {
+//                Toast.makeText(this,"up", Toast.LENGTH_LONG).show()
+                // Respond to the action bar's Up/Home button
+                NavUtils.navigateUpFromSameTask(this)
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
 
 
