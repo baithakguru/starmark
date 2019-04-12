@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 <LinearLayout
         android:orientation="vertical"
         xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
-             android:layout_height="match_parent"
+             android:layout_height="wrap_content"
         android:padding="16dp"
              tools:context=".ui.groups.NewTopic.AddTopic">
 
@@ -19,20 +22,30 @@
 
     <Spinner android:layout_width="match_parent"  android:layout_height="wrap_content"
     android:entries="@array/uselessSpinner"
+        android:id="@+id/spinnerUniversity"
     android:layout_margin="15dp"/>
     <Spinner android:layout_width="match_parent" android:layout_height="wrap_content"
              android:entries="@array/uselessSpinner"
+        android:id="@+id/spinnerDegree"
+    android:layout_marginHorizontal="15dp"/>   <Spinner android:layout_width="match_parent" android:layout_height="wrap_content"
+             android:entries="@array/uselessSpinner"
+    android:id="@+id/spinnerCourse"
     android:layout_marginHorizontal="15dp"/>
     <Spinner android:layout_width="match_parent" android:layout_height="wrap_content"
              android:entries="@array/uselessSpinner"
+        android:id="@+id/spinnerSemester"
     android:layout_margin="15dp"/>
     <Spinner android:layout_width="match_parent" android:layout_height="wrap_content"
              android:entries="@array/uselessSpinner"
+        android:id="@+id/spinnerSubject"
     android:layout_marginHorizontal="15dp"/>
-    
-    <View android:layout_width="match_parent" android:layout_height="3dp"
-          android:layout_margin="16dp"
-    android:background="@color/colorAccent"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_margin="16dp"
+        android:alpha=".25"
+        android:background="@color/colorAccent" />
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
     android:text="OR"
     android:layout_gravity="center"
@@ -59,3 +72,4 @@
     />
 
 </LinearLayout>
+</ScrollView>

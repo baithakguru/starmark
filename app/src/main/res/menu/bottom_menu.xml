@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 <item android:title="notification" android:icon="@drawable/notification" android:id="@+id/bottomNoti"/>
 <item android:title="call" android:icon="@drawable/phone" android:id="@+id/bottomCall"/>
-<item android:title="newGroup" android:icon="@drawable/ic_close_black_24dp" android:id="@+id/bottomAdd"/>
+<item android:title="newGroup" android:icon="@drawable/ic_add_circle_black_24dp" android:id="@+id/bottomAdd"/>
 <item android:title="chat" android:icon="@drawable/message" android:id="@+id/bottomMessage"/>
 <item android:title="files" android:icon="@drawable/files" android:id="@+id/bottomFiles"/>
 </menu>
