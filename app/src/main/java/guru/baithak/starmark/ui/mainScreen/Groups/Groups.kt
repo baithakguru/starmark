@@ -109,9 +109,15 @@ class Groups : Fragment() {
 
             override fun onDataChange(p0: DataSnapshot) {
                 groups.clear()
-                p0.children.mapNotNullTo(groups){
-                    it.getValue<Groups>(Groups::class.java)
+                for(child in p0.children){
+                    val childData: Groups? = child.getValue(Groups::class.java)
+                    childData!!.groupKey = child.key
+                    Log.i("group get",child.key)
+                    groups.add(childData)
                 }
+//                p0.children.mapNotNullTo(groups){
+//                    it.getValue<Groups>(Groups::class.java)
+//                }
                 Log.i("Data",p0.toString())
                 viewSetter()
             }

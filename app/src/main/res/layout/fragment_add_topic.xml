@@ -59,6 +59,7 @@
                                                    android:layout_height="wrap_content">
         <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
         android:hint="Enter the subject here"
+            android:id="@+id/addTopicNaiveTitle"
         android:padding="8dp"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -67,6 +68,7 @@
             android:background="@drawable/button"
             android:textColor="@color/white"
             android:text="Add Subject"
+            android:id="@+id/addTopicFinal"
             android:layout_margin="16dp"
 
     />

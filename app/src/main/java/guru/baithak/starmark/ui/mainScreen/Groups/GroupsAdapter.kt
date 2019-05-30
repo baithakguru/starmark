@@ -8,12 +8,14 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import guru.baithak.starmark.Helpers.groupKey
 import guru.baithak.starmark.Models.Groups
 import guru.baithak.starmark.Helpers.groupName
 import guru.baithak.starmark.R
@@ -41,6 +43,7 @@ class GroupsAdapter(c : Context , groups : ArrayList<Groups>) : RecyclerView.Ada
         p0.lastActive.text= groups[p1].lastActive
         p0.members.text= groups[p1].member
         p0.item.tag = groups[p1]
+        Log.i("group recycler",groups[p1].groupKey)
 
         if (groups[p1].lastActive == null){
             p0.lastActive.visibility=View.GONE
@@ -94,6 +97,7 @@ class ViewHolderGroups(val item : View,val c:Context) : RecyclerView.ViewHolder(
         item.setOnClickListener{v->
             val i = Intent(c, EachGroup::class.java)
             i.putExtra(groupName,item.tag as Groups)
+            i.putExtra(groupKey,(item.tag as Groups).groupKey)
             c.startActivity(i)
         }
     }

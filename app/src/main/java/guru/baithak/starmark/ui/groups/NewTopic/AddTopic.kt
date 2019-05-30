@@ -1,6 +1,7 @@
 package guru.baithak.starmark.ui.groups.NewTopic
 
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,10 +10,21 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ServerValue
+import com.google.firebase.database.core.ServerValues
+import guru.baithak.starmark.Helpers.groupName
 import guru.baithak.starmark.Models.Course
+import guru.baithak.starmark.Models.Groups
 
 import guru.baithak.starmark.R
 import kotlinx.android.synthetic.main.fragment_add_topic.*
+import kotlinx.android.synthetic.main.fragment_groups.*
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
+import kotlin.collections.LinkedHashSet
 
 class AddTopic : Fragment() {
 
@@ -21,6 +33,7 @@ class AddTopic : Fragment() {
     var courseString:String?=null
     var semesterString:String?=null
     var subjectString:String?=null
+    var group:Groups?=null
 
     val topics :ArrayList<Course> = ArrayList()
 
@@ -35,6 +48,15 @@ class AddTopic : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if(arguments!=null){
+            group = arguments!!.getParcelable(groupName) as Groups
+            Log.d("GROUP",group!!.groupName)
+            Log.d("GROUP",group!!.groupKey)
+        }else{
+            Log.d("GROUP","error getting group")
+        }
+
         topics.add(Course("Mumbai","BE","COMPS","4th","COA"))
         topics.add(Course("Univesity","Degree","Course","sem","sub"))
         topics.add(Course("Mumbai","BE","COMPS","4th","DBMS"))
@@ -133,10 +155,41 @@ class AddTopic : Fragment() {
         spinnerSemester.onItemSelectedListener=semesterCallback
         spinnerCourse.onItemSelectedListener=courseCallback
         spinnerUniversity.onItemSelectedListener=universityCallback
-
+        addTopicFinal.setOnClickListener{ _->
+            addTopicToDb()
+        }
 
     }
 
+    fun addTopicToDb(){
+        var finalTopicString  =""
+        if(addTopicNaiveTitle.text.isEmpty()){
+            if(universityString == null || degreeString == null || courseString == null || semesterString == null || subjectString == null ){
+                Snackbar.make(view!!,"Please Enter Valid Fields",Snackbar.LENGTH_LONG).show()
+                return
+            }
+            else{
+                finalTopicString = universityString+"/"+degreeString+"/"+courseString+"/"+semesterString+"/"+subjectString
+            }
+        }else{
+            finalTopicString = addTopicNaiveTitle.text.toString()
+        }
+
+        val ref = FirebaseDatabase.getInstance().getReference("groups/"+group!!.groupKey+"/topics")
+        val key = ref.push().key
+        val topicDetails : HashMap<String,Any> = HashMap()
+        topicDetails.put("createdAt", ServerValue.TIMESTAMP)
+        topicDetails.put("detailsTopic", finalTopicString)
+        topicDetails.put("lastModified", ServerValue.TIMESTAMP)
+        topicDetails.put("createdBy",FirebaseAuth.getInstance().currentUser!!.uid)
+
+        ref.child(key!!).setValue(topicDetails).addOnSuccessListener {
+            Snackbar.make(view!!,"Topic Added Successfully",Snackbar.LENGTH_LONG).show()
+        }.addOnFailureListener{
+            Snackbar.make(view!!,"Error Adding Topic",Snackbar.LENGTH_LONG).show()
+        }
+
+    }
 
     fun getDegree():LinkedHashSet<String>{
         val degree = LinkedHashSet<String>()

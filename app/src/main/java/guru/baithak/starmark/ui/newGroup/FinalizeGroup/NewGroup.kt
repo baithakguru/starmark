@@ -76,6 +76,7 @@ class NewGroup : AppCompatActivity() {
             name=getSharedPreferences(sharedPref, Context.MODE_PRIVATE).getString(userNameSharedPref,"unknown")
         }
         params.put("selfName",name!!)
+        Log.i("selfName",name!!)
         val allMembers = JSONArray()
         for(c:AdapterSelectContacts.Contact in data!!){
             val member = JSONObject()

@@ -41,7 +41,7 @@ class SignUp : AppCompatActivity() {
         try {
             signUpPhone.text.append(intent.getStringExtra(userName))
             signUpPhone.isEnabled=false
-
+            ////TODO use regex to have phone numbers in specified format
         }catch (e:Exception){
 
         }
@@ -128,7 +128,7 @@ class SignUp : AppCompatActivity() {
         val data = HashMap<String,Any>()
         getSharedPreferences(sharedPref, Context.MODE_PRIVATE).edit().putString(userNameSharedPref,signUpName.text.toString()).apply()
 
-        data.put("groupName",signUpName.text.toString())
+        data.put("name",signUpName.text.toString())
         data.put("phone",signUpPhone.text.toString())
         ref.setValue(data).addOnSuccessListener {
             dismissProgress()

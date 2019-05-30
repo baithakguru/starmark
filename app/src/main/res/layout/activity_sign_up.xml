@@ -19,6 +19,7 @@
         android:scaleY="3" />
 
     <ImageView
+        android:visibility="gone"
         android:id="@+id/imageView3"
         android:layout_width="43dp"
         android:layout_height="34dp"

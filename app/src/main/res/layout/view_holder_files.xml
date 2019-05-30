@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="75dp">
+<ImageView
+    android:layout_width="75dp"
+    android:layout_height="75dp"
+    android:id="@+id/fileTypeIcon"
+    android:src="@drawable/ic_menu_manage"
+    android:padding="24dp"/>
+    <LinearLayout
+        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="85dp"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:id="@+id/fileMainHead"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Uploaded by and file"/>
+
+        <TextView
+            android:id="@+id/fileTopic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="topics"/>
+
+
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/fileUploadedAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Uploaded at"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="8dp"/>
+</RelativeLayout>

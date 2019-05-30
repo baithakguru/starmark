@@ -91,6 +91,7 @@ class Login : AppCompatActivity() {
 
         val request:JsonObjectRequest = JsonObjectRequest(Request.Method.POST, userExistsUrl,JSONObject(params),Response.Listener {
             jsonResp->
+            Log.i("response v",jsonResp.toString())
             val response:JSONObject = jsonResp
             if(response.getString("status").equals("success")){
                 try {
