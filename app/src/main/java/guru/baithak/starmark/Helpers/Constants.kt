@@ -8,7 +8,7 @@ const val userNameSharedPref : String = "username"
 
 const val selectedIntent : String = "SelectedContacts"
 const val groupName : String = "groupName"
-const val groupKey : String = "groupKey"
+const val groupKey : String = "groupId"
 const val userExistsUrl : String = "https://us-central1-starmark-1-a2e6f.cloudfunctions.net/getUserDetails"
 const val createGroupUrl : String = "https://us-central1-starmark-1-a2e6f.cloudfunctions.net/createGroup"
 const val userName : String = "userNamePassingIntents"

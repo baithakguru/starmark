@@ -6,7 +6,7 @@ import java.util.*
 
 class Groups(var groupName : String?=null, var isMuted:Boolean?=false, var member:String?=null, var lastActive: String?=null, var notify:Boolean?=false, var topics:ArrayList<Topic> = ArrayList(), var groupKey:String?=null):Parcelable{
 
-
+    @field:JvmField var isActive:Boolean = true
 
 
     constructor(parcel: Parcel) : this(

@@ -21,13 +21,13 @@ class TopicListAdapter(val c : Context, val topics:ArrayList<Topic>): RecyclerVi
     }
 
     override fun getItemCount(): Int {
-//        Toast.makeText(c,"Size is "+topics.size,Toast.LENGTH_SHORT).show()
+//        Toast.makeText(c,"Size is "+keyTopic.size,Toast.LENGTH_SHORT).show()
         return topics.size
     }
 
     override fun onBindViewHolder(p0: EachGroupViewHolder, p1: Int) {
         p0.name.text = topics[p1].topicName
-        p0.topics.text = topics[p1].topics
+        p0.topics.text = topics[p1].keyTopic
     }
 
 

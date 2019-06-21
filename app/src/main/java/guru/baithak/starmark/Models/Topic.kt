@@ -3,16 +3,15 @@ package guru.baithak.starmark.Models
 import android.os.Parcel
 import android.os.Parcelable
 
-class Topic(val topicName:String , val topics:String) : Parcelable{
+class Topic(val topicName:String , val keyTopic:String) : Parcelable{
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString()
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(topicName)
-        parcel.writeString(topics)
+        parcel.writeString(keyTopic)
     }
 
     override fun describeContents(): Int {

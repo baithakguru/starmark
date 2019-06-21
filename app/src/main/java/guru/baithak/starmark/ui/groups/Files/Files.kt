@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,7 @@ import guru.baithak.starmark.Helpers.*
 import guru.baithak.starmark.Models.Groups
 import guru.baithak.starmark.R
 import kotlinx.android.synthetic.main.fragment_files.*
+import java.lang.Exception
 
 
 class Files : Fragment() {
@@ -31,12 +33,18 @@ class Files : Fragment() {
     var topicSelected :String?=null
     var type:Int=0
     val files=ArrayList<HashMap<String,Any>>()
+    var path:String?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        group = arguments!!.getParcelable<Groups>(groupName).groupKey
+        if(arguments!!.getBoolean("fromMain")){
+            group = arguments!!.getParcelable<Groups>(groupName).groupKey
+            path = "media/"+group
+        }else{
+            path = arguments!!.getString("path")
+        }
         getData()
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_files, container, false)
@@ -50,13 +58,29 @@ class Files : Fragment() {
         }
     }
 
+    fun getFiles(dataSnap :DataSnapshot,path:String){
+        try {
+            if(dataSnap.hasChild("fileName")){
+                val data=dataSnap.value as HashMap<String, Any>
+                data.put("topic",path)
+                files.add(data)
+            }else{
+                for (child in dataSnap.children){
+                    getFiles(child,path+"/"+child.key)
+                }
+            }
+        }catch (e:Exception){
+
+        }
+    }
+
     fun getData(){
         val progress = ProgressDialog(context)
         progress.setMessage("Please wait while we load your files")
         progress.setTitle("Loading index")
         progress.show()
-        val path ="media/"+group
-        FirebaseDatabase.getInstance().getReference(path).addListenerForSingleValueEvent(object :ValueEventListener{
+
+        FirebaseDatabase.getInstance().getReference(path!!).addListenerForSingleValueEvent(object :ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
                 progress.dismiss()
                 Toast.makeText(context,"Some Error occured while fetching list",Toast.LENGTH_LONG).show()
@@ -65,21 +89,25 @@ class Files : Fragment() {
             override fun onDataChange(p0: DataSnapshot) {
                 topics.clear()
                 files.clear()
-                Log.i("topics",p0.toString())
-                for (t in p0.child("index").children){
-                    Log.i("topics",t.getValue(String::class.java))
-                    topics.put(t.getValue(String::class.java)!!,t.key!!)
-                }
+                Log.i("keyTopic",p0.toString())
+//                for (t in p0.child("index").children){
+//                    Log.i("keyTopic",t.getValue(String::class.java))
+//                    topics.put(t.getValue(String::class.java)!!,t.key!!)
+//                }
                 progress.dismiss()
-                for(eachTopic in p0.child("files").children){
-                    for (upload in eachTopic.children) {
-                        val data=upload.value as HashMap<String, Any>
-                        data.put("topic",eachTopic.key!!)
-                        files.add(data)
-                    }
+                getFiles(p0,"")
+//                for(eachTopic in p0.child("files").children){
+//                    for (upload in eachTopic.children) {
+//                        val data=upload.value as HashMap<String, Any>
+//                        data.put("topic",eachTopic.key!!)
+//                        files.add(data)
+//                    }
+//                }
+                if(files.size!=0){
+                    emptyFiles.visibility = View.INVISIBLE
                 }
                 fileRecycler.adapter = Adapter(context!!,files)
-                fileRecycler.layoutManager = LinearLayoutManager(context)
+                fileRecycler.layoutManager = LinearLayoutManager(context) as RecyclerView.LayoutManager?
 
             }
         })
@@ -137,9 +165,9 @@ class Files : Fragment() {
     }
 
     fun upload(uri:Uri){
-        var path = "media/"+ group+"/files/"+topicSelected
+//        var path = "media/"+ group+"/files/"+topicSelected
         val progress = ProgressDialog(context)
-        val helper = UploadFile(path,object :UploadFile.ResultUpload{
+        val helper = UploadFile(path!!,object :UploadFile.ResultUpload{
             override fun results(successFull: Boolean, success: String?, error: String?) {
                    progress.dismiss()
                 if(successFull){

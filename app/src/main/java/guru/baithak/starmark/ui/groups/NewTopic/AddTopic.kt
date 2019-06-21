@@ -184,9 +184,9 @@ class AddTopic : Fragment() {
         topicDetails.put("createdBy",FirebaseAuth.getInstance().currentUser!!.uid)
 
         ref.child(key!!).setValue(topicDetails).addOnSuccessListener {
-            Snackbar.make(view!!,"Topic Added Successfully",Snackbar.LENGTH_LONG).show()
+            view?.let { it1 -> Snackbar.make(it1,"Topic Added Successfully",Snackbar.LENGTH_LONG).show() }
         }.addOnFailureListener{
-            Snackbar.make(view!!,"Error Adding Topic",Snackbar.LENGTH_LONG).show()
+            view?.let { it1 -> Snackbar.make(it1,"Error Adding Topic",Snackbar.LENGTH_LONG).show() }
         }
 
     }

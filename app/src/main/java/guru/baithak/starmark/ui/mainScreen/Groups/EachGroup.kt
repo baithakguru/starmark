@@ -50,6 +50,7 @@ class EachGroup : AppCompatActivity() {
 
         }
         b.putParcelable(groupName,group)
+        b.putBoolean("fromMain",true)
         eachGroupBottomNav.setOnNavigationItemSelectedListener{menu:MenuItem->
             when(menu.itemId){
                 R.id.bottomMessage->{
@@ -85,8 +86,8 @@ class EachGroup : AppCompatActivity() {
         }
         groupNameEachGroup.text = group!!.groupName
         groupMembersEachGroup.text = group!!.member
-//        Toast.makeText(this,"Size :"+group!!.topics.size,Toast.LENGTH_SHORT ).show()
-//        eachTopicRecycler.adapter = TopicListAdapter(this,group!!.topics)
+//        Toast.makeText(this,"Size :"+group!!.keyTopic.size,Toast.LENGTH_SHORT ).show()
+//        eachTopicRecycler.adapter = TopicListAdapter(this,group!!.keyTopic)
 //        eachTopicRecycler.layoutManager = LinearLayoutManager(this)
 
     }

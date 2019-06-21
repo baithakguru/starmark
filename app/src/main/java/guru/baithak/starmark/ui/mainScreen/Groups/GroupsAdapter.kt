@@ -7,6 +7,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
+import android.service.autofill.Validators.not
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.util.TypedValue
@@ -15,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import guru.baithak.starmark.Helpers.groupKey
 import guru.baithak.starmark.Models.Groups
 import guru.baithak.starmark.Helpers.groupName
@@ -95,10 +97,15 @@ class ViewHolderGroups(val item : View,val c:Context) : RecyclerView.ViewHolder(
     val icon :ImageView = item.findViewById(R.id.groupIcon)
     init {
         item.setOnClickListener{v->
-            val i = Intent(c, EachGroup::class.java)
-            i.putExtra(groupName,item.tag as Groups)
-            i.putExtra(groupKey,(item.tag as Groups).groupKey)
-            c.startActivity(i)
+            if(((item.tag as Groups).isActive)){
+                val i = Intent(c, EachGroup::class.java)
+                i.putExtra(groupName,item.tag as Groups)
+                i.putExtra(groupKey,(item.tag as Groups).groupKey)
+                c.startActivity(i)
+            }else{
+                Toast.makeText(c,"You are no longer member of this group",Toast.LENGTH_SHORT).show()
+            }
+
         }
     }
 

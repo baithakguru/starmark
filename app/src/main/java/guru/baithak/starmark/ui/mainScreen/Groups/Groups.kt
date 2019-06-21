@@ -21,6 +21,7 @@ import guru.baithak.starmark.Models.Topic
 import guru.baithak.starmark.R
 import guru.baithak.starmark.ui.newGroup.SelectMembers.SelectContacts
 import kotlinx.android.synthetic.main.fragment_groups.*
+import java.lang.Exception
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,31 +45,24 @@ class Groups : Fragment() {
     }
 
     fun viewSetter(){
-        groupsRecycler.adapter = GroupsAdapter(context!!, groups)
-        groupsRecycler.layoutManager = LinearLayoutManager(context)
+        try {
+            groupsRecycler.adapter = GroupsAdapter(context!!, groups)
+            groupsRecycler.layoutManager = LinearLayoutManager(context)
+
+        }catch (e:Exception){
+
+        }
 
     }
 
     override fun onResume() {
         super.onResume()
-        getGroups()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        groups.add(Groups("Group 1 ", false, "Ananya,Amit ...", "Yesterday", false))
-        groups.add(Groups("Group 1 ", false, "Ananya,Amit ...", "Yesterday", true))
-        groups.add(Groups("Group 2 ", true, "Ananya,Amit ...", "Yesterday", false))
-        groups.add(Groups("Group 2 ", true, "Ananya,Amit ...", "Yesterday", true))
-
-        for (i in 0..10){
-           val index  = (Math.random()*groups.size).toInt()
-            groups[index].addTopics(Topic(String.format("Topic title %d",i),"It doesn't matter"))
-        }
-
-
-//        viewSetter()
+        getGroups()
+        //        viewSetter()
         createGroup.setOnClickListener{v->
             switchFab()
         }
@@ -101,7 +95,7 @@ class Groups : Fragment() {
     fun getGroups(){
 
         val ref = FirebaseDatabase.getInstance().getReference("users/"+FirebaseAuth.getInstance().currentUser!!.uid+"/groups")
-        ref.keepSynced(true)
+//        ref.keepSynced(true)
         ref.addValueEventListener(object :ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
                 Snackbar.make(rootGroups,"Error Getting Data",Snackbar.LENGTH_LONG).show()
@@ -111,7 +105,8 @@ class Groups : Fragment() {
                 groups.clear()
                 for(child in p0.children){
                     val childData: Groups? = child.getValue(Groups::class.java)
-                    childData!!.groupKey = child.key
+                    childData!!.isActive = child.child("isActive").value as Boolean
+                    childData.groupKey = child.key
                     Log.i("group get",child.key)
                     groups.add(childData)
                 }

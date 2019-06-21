@@ -30,7 +30,7 @@ class Notifications : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-//        getTopics()
+//        getKeyTopic()
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_notifications, container, false)
     }
@@ -45,7 +45,16 @@ class Notifications : Fragment() {
     }
 
     fun viewSetter(){
-        val adapter = Adapter(context!!,topics)
+//        list.clear()
+//        for(t in keyTopic){
+//            if(!list.containsKey(t.topicName)){
+//                list.put(t.topicName,ArrayList<Topic>())
+//            }
+//
+//
+//
+//        }
+        val adapter = Adapter(context!!,topics,true,"media/"+ group!!.groupKey+"/files/" )
         val manager = LinearLayoutManager(context!!)
         notificationsRecycler.adapter = adapter
         notificationsRecycler.layoutManager = manager
@@ -55,23 +64,24 @@ class Notifications : Fragment() {
 
     fun getTopics(){
         val refPath = "groups/"+group!!.groupKey+"/topics"
-        Log.i("topics path",refPath)
+        Log.i("keyTopic path",refPath)
+        val key="media/"+group!!.groupKey+"/files"
         val ref = FirebaseDatabase.getInstance().getReference(refPath)
         ref.addListenerForSingleValueEvent(object :ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                Toast.makeText(context,"Error getting data",Toast.LENGTH_LONG).show()
             }
 
             override fun onDataChange(p0: DataSnapshot) {
                 topics.clear()
-                Log.i("topics whole",p0.key)
-                Log.i("topics whole",p0.toString())
+                Log.i("keyTopic whole",p0.key)
+                Log.i("keyTopic whole",p0.toString())
                 for (topic in p0.children){
 //                    Toast.makeText(context,(topic.value as HashMap<String,Any>).size,Toast.LENGTH_LONG).show()
-                    Log.i("topics data ",topic.toString())
-                    val key = topic.key
+                    Log.i("keyTopic data ",topic.toString())
+                    val key = p0.ref.path.toString()
                     val name = topic.child("detailsTopic").getValue(String::class.java)
-                    topics.add(Topic(name!!,key!!))
+                    topics.add(Topic(name!!,key))
                 }
                 viewSetter()
             }

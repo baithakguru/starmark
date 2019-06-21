@@ -1,26 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+
+<FrameLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="18dp">
-
-    <TextView
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <View
         android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/white"
+        android:layout_marginStart="-300dp"
+        android:layout_marginEnd="-300dp"
+        android:alpha="0"/>
+<LinearLayout android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:animateLayoutChanges="true"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginEnd="60dp"
+        android:id="@+id/clickable"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:id="@+id/topicHead"
-        android:text="Useless Topic"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold"
-        />
-    <TextView
-        android:id="@+id/topicSubHead"
+        android:orientation="vertical">
+
+        <TextView
+            android:textAlignment="textStart"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:textSize="18sp"
+            android:id="@+id/topicHead"
+            android:text="Useless Topic"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/topicSubHead"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:textSize="12sp"
+            android:text="Useless Sub - Topics"
+            />
+
+
+
+    </LinearLayout>
+    <ImageView
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_width="34dp"
+        android:id="@+id/expandInner"
+        android:layout_height="34dp"
+        android:src="@drawable/ic_add"
         android:layout_marginTop="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:text="Useless Sub - Topics"
+        android:layout_marginEnd="18dp"
+        android:padding="8dp"
         />
 
+
+</RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/innerRecycler"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/endLine"
+        android:visibility="invisible"
+        android:layout_marginStart="-300dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/colorAccent"
+        />
 
 </LinearLayout>
+
+</FrameLayout>

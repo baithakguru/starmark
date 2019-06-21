@@ -4,6 +4,8 @@
     <color name="colorSelected">#1a01579b</color>
     <color name="colorPrimaryDark">#01579b</color>
     <color name="colorAccent">#9a9a9a</color>
+    <color name="colorAccentOpaque">#efefef</color>
+    <color name="colorAccentOpaqueMore">#f5f5f6</color>
     <color name="colorAccentTrans">#339a9a9a</color>
     <color name="white">#ffffff</color>
 </resources>

@@ -10,6 +10,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/fileRecycler"/>
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:layout_centerInParent="true"
+        android:textColor="@color/colorPrimary"
+        android:textAlignment="center"
+        android:id="@+id/emptyFiles"
+        android:text="You have no downloads"
+        />
+
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"

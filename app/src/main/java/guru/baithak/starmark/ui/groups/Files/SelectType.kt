@@ -43,10 +43,6 @@ class SelectType : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listen()
-        val adapter = ArrayAdapter<String>(context!!,R.layout.support_simple_spinner_dropdown_item)
-        adapter.addAll(topics!!.keys)
-        selectUploadTopic.adapter = adapter
-        selectUploadTopic.onItemSelectedListener=spinnerListener
     }
 
     fun listen(){
