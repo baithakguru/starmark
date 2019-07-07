@@ -42,6 +42,7 @@
                                             android:layout_height="100dp"
     android:layout_below="@id/searchContactsActionbar"
                                             android:id="@+id/selectedRecycler"
+
     />
 
     <View android:layout_width="match_parent" android:layout_height="3dp"
@@ -59,7 +60,22 @@
             android:layout_width="match_parent"
             android:id="@+id/allContactsRecycler"
                                             android:layout_below="@id/selectedRecycler"
-                                            android:layout_height="match_parent"/>
+                                            android:layout_height="match_parent"
+
+
+        />
+    <com.futuremind.recyclerviewfastscroll.FastScroller
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="19dp"
+        android:id="@+id/fastscroll"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/selectedRecycler"
+        android:layout_above="@id/fabFinalizeGroup"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"/>
+
 
 
     <android.support.design.widget.FloatingActionButton

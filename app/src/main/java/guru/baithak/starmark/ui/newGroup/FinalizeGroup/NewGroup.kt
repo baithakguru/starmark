@@ -11,6 +11,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
@@ -101,7 +102,7 @@ class NewGroup : AppCompatActivity() {
             Toast.makeText(this,"Error Occurred",Toast.LENGTH_LONG).show()
         })
 
-
+        request.retryPolicy=DefaultRetryPolicy(0,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         val requestQueue = Volley.newRequestQueue(this)
         requestQueue.add(request)
 

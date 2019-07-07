@@ -1,6 +1,7 @@
 package guru.baithak.starmark.ui.groups.NewTopic
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -19,6 +20,7 @@ import guru.baithak.starmark.Models.Course
 import guru.baithak.starmark.Models.Groups
 
 import guru.baithak.starmark.R
+import guru.baithak.starmark.ui.groups.Notifications.Notifications
 import kotlinx.android.synthetic.main.fragment_add_topic.*
 import kotlinx.android.synthetic.main.fragment_groups.*
 import java.util.*
@@ -34,6 +36,7 @@ class AddTopic : Fragment() {
     var semesterString:String?=null
     var subjectString:String?=null
     var group:Groups?=null
+    var canProced = false
 
     val topics :ArrayList<Course> = ArrayList()
 
@@ -57,6 +60,7 @@ class AddTopic : Fragment() {
             Log.d("GROUP","error getting group")
         }
 
+//        topics.add(Course("Select ","Select ","Select ","Select ","Select"))
         topics.add(Course("Mumbai","BE","COMPS","4th","COA"))
         topics.add(Course("Univesity","Degree","Course","sem","sub"))
         topics.add(Course("Mumbai","BE","COMPS","4th","DBMS"))
@@ -79,6 +83,7 @@ class AddTopic : Fragment() {
         spinnerSemester.adapter = semester
         spinnerSubject.adapter = subject
 
+        university.add("Select University")
         university.addAll(universitySet)
 
        val universityCallback = object :AdapterView.OnItemSelectedListener{
@@ -89,6 +94,7 @@ class AddTopic : Fragment() {
            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                universityString = university.getItem(position)
                degree.clear()
+               degree.add("Select Degree")
                degree.addAll(getDegree())
                degree.notifyDataSetChanged()
                spinnerDegree.onItemSelectedListener.onItemSelected(null,null,0,0)
@@ -99,6 +105,7 @@ class AddTopic : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 degreeString = degree.getItem(position)
                 course.clear()
+                course.add("Select Course")
                 course.addAll(getCourse())
                 course.notifyDataSetChanged()
                 spinnerCourse.onItemSelectedListener.onItemSelected(null,null,0,0)
@@ -114,6 +121,7 @@ class AddTopic : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 courseString = course.getItem(position)
                 semester.clear()
+                semester.add("Select Semester")
                 semester.addAll(getSemester())
                 semester.notifyDataSetChanged()
                 spinnerSemester.onItemSelectedListener.onItemSelected(null,null,0,0)
@@ -128,6 +136,7 @@ class AddTopic : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 semesterString = semester.getItem(position)
                 subject.clear()
+                subject.add("Select Subject")
                 subject.addAll(getSubjects())
                 subject.notifyDataSetChanged()
                 spinnerSubject.onItemSelectedListener.onItemSelected(null,null,0,0)
@@ -145,6 +154,7 @@ class AddTopic : Fragment() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                canProced = position != 0
                 subjectString=subject.getItem(position)
             }
         }
@@ -164,7 +174,7 @@ class AddTopic : Fragment() {
     fun addTopicToDb(){
         var finalTopicString  =""
         if(addTopicNaiveTitle.text.isEmpty()){
-            if(universityString == null || degreeString == null || courseString == null || semesterString == null || subjectString == null ){
+            if(universityString == null || degreeString == null || courseString == null || semesterString == null || subjectString == null || !canProced){
                 Snackbar.make(view!!,"Please Enter Valid Fields",Snackbar.LENGTH_LONG).show()
                 return
             }
@@ -184,10 +194,13 @@ class AddTopic : Fragment() {
         topicDetails.put("createdBy",FirebaseAuth.getInstance().currentUser!!.uid)
 
         ref.child(key!!).setValue(topicDetails).addOnSuccessListener {
-            view?.let { it1 -> Snackbar.make(it1,"Topic Added Successfully",Snackbar.LENGTH_LONG).show() }
+                view?.let { it1 -> Snackbar.make(it1,"Topic Added Successfully",Snackbar.LENGTH_LONG).show()
+                fragmentManager!!.beginTransaction().replace(R.id.eachTopicFragment,Notifications()).commit()
+            }
         }.addOnFailureListener{
             view?.let { it1 -> Snackbar.make(it1,"Error Adding Topic",Snackbar.LENGTH_LONG).show() }
         }
+
 
     }
 

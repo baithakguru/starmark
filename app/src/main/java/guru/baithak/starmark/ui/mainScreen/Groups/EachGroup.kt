@@ -84,6 +84,9 @@ class EachGroup : AppCompatActivity() {
             return@setOnNavigationItemSelectedListener true
 
         }
+        val noti = Notifications()
+        noti.arguments = b
+        swapFragment(noti)
         groupNameEachGroup.text = group!!.groupName
         groupMembersEachGroup.text = group!!.member
 //        Toast.makeText(this,"Size :"+group!!.keyTopic.size,Toast.LENGTH_SHORT ).show()

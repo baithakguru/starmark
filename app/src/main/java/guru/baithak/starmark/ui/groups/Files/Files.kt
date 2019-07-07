@@ -80,7 +80,7 @@ class Files : Fragment() {
         progress.setTitle("Loading index")
         progress.show()
 
-        FirebaseDatabase.getInstance().getReference(path!!).addListenerForSingleValueEvent(object :ValueEventListener{
+        FirebaseDatabase.getInstance().getReference(path!!).addValueEventListener(object :ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
                 progress.dismiss()
                 Toast.makeText(context,"Some Error occured while fetching list",Toast.LENGTH_LONG).show()

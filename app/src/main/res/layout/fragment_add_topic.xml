@@ -27,7 +27,9 @@
     <Spinner android:layout_width="match_parent" android:layout_height="wrap_content"
              android:entries="@array/uselessSpinner"
         android:id="@+id/spinnerDegree"
-    android:layout_marginHorizontal="15dp"/>   <Spinner android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_marginHorizontal="15dp"/>
+    <Spinner android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
              android:entries="@array/uselessSpinner"
     android:id="@+id/spinnerCourse"
     android:layout_marginHorizontal="15dp"/>
