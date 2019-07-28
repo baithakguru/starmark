@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:padding="8dp"
+
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginStart="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This is subtopic"
+            android:visibility="gone"
+            android:id="@+id/topicNameHead"
+            />
+        <TextView
+
+            android:textSize="16sp"
+            android:layout_marginStart="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This is subtopic"
+            android:id="@+id/topicName"
+            />
+
+        <ImageView
+            android:id="@+id/expandTopic"
+            android:layout_marginEnd="16dp"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add"/>
+    </RelativeLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginStart="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/innerExpandable"
+        android:visibility="gone"/>
+
+
+</LinearLayout>

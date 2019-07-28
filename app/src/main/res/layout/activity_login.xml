@@ -76,6 +76,7 @@
             <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:hint="OTP"
                 android:visibility="gone"
+                android:inputType="number"
                 android:id="@+id/loginOtp"
 
 

@@ -23,15 +23,6 @@ import guru.baithak.starmark.ui.newGroup.SelectMembers.SelectContacts
 import kotlinx.android.synthetic.main.fragment_groups.*
 import java.lang.Exception
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- *
- */
 class Groups : Fragment() {
 
     val groups = ArrayList<Groups>()
@@ -55,9 +46,6 @@ class Groups : Fragment() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -110,9 +98,7 @@ class Groups : Fragment() {
                     Log.i("group get",child.key)
                     groups.add(childData)
                 }
-//                p0.children.mapNotNullTo(groups){
-//                    it.getValue<Groups>(Groups::class.java)
-//                }
+
                 Log.i("Data",p0.toString())
                 viewSetter()
             }

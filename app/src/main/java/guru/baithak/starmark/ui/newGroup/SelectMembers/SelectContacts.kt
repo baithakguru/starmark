@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.activity_select_contacts.*
 
 class SelectContacts : AppCompatActivity() {
     var allContacts: ArrayList<AdapterSelectContacts.Contact> = ArrayList()
-    var progress : ProgressDialog?= null
+//    var progress : ProgressDialog?= null
     val adapterForSelected = SelectedAdapter(this, ArrayList())
     var totalContacts :Int=0
 
@@ -44,7 +44,7 @@ class SelectContacts : AppCompatActivity() {
     }
 
     fun getContacts(search:String?=null){
-        progress = ProgressDialog.show(this,"Loading Your Contacts","Please wait while we load your allContacts")
+//        progress = ProgressDialog.show(this,"Loading Your Contacts","Please wait while we load your allContacts")
         Thread(Runnable { ->
             val type =  arrayOf(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
                     ContactsContract.CommonDataKinds.Phone.NUMBER,
@@ -132,7 +132,7 @@ class SelectContacts : AppCompatActivity() {
             }
         }
 
-        progress!!.dismiss()
+//        progress!!.dismiss()
 //        Snackbar.make(rootSearch,"Trying adapter",Snackbar.LENGTH_LONG).show()
         var  adapterAllContacts = AdapterSelectContacts(this, allContacts, callback)
         allContactsRecycler.adapter = adapterAllContacts

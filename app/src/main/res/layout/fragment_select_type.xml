@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -38,9 +36,9 @@
                 android:layout_height="wrap_content">
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="50dp"
-
                     android:layout_gravity="center_horizontal"
                     android:layout_height="50dp"
+
                     android:src="@color/colorPrimary"/>
                 <TextView
                     android:layout_gravity="center_horizontal"

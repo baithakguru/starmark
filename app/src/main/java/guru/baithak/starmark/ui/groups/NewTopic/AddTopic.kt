@@ -11,18 +11,26 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ServerValue
 import com.google.firebase.database.core.ServerValues
+import guru.baithak.starmark.Helpers.groupKey
 import guru.baithak.starmark.Helpers.groupName
 import guru.baithak.starmark.Models.Course
 import guru.baithak.starmark.Models.Groups
 
 import guru.baithak.starmark.R
 import guru.baithak.starmark.ui.groups.Notifications.Notifications
+import guru.baithak.starmark.ui.groups.Topics.ExistingTopics
 import kotlinx.android.synthetic.main.fragment_add_topic.*
 import kotlinx.android.synthetic.main.fragment_groups.*
+import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -187,21 +195,34 @@ class AddTopic : Fragment() {
 
         val ref = FirebaseDatabase.getInstance().getReference("groups/"+group!!.groupKey+"/topics")
         val key = ref.push().key
-        val topicDetails : HashMap<String,Any> = HashMap()
-        topicDetails.put("createdAt", ServerValue.TIMESTAMP)
-        topicDetails.put("detailsTopic", finalTopicString)
-        topicDetails.put("lastModified", ServerValue.TIMESTAMP)
-        topicDetails.put("createdBy",FirebaseAuth.getInstance().currentUser!!.uid)
+        val topicDetails = HashMap<String,String>()// = HashMap()
+        topicDetails.put("groupDetails", finalTopicString)
+        topicDetails.put("groupId", group!!.groupKey!!)
+        topicDetails.put("UID",FirebaseAuth.getInstance().currentUser!!.uid)
 
-        ref.child(key!!).setValue(topicDetails).addOnSuccessListener {
-                view?.let { it1 -> Snackbar.make(it1,"Topic Added Successfully",Snackbar.LENGTH_LONG).show()
-                fragmentManager!!.beginTransaction().replace(R.id.eachTopicFragment,Notifications()).commit()
-            }
-        }.addOnFailureListener{
-            view?.let { it1 -> Snackbar.make(it1,"Error Adding Topic",Snackbar.LENGTH_LONG).show() }
-        }
+        val jsonRequest = JsonObjectRequest(Request.Method.POST,"https://us-central1-starmark-1-a2e6f.cloudfunctions.net/addTopic", JSONObject(topicDetails),
+                Response.Listener<JSONObject> {
+                    if(it["status"].equals("success")){
+                        view?.let { it1 ->
+                            Snackbar.make(it1, "Topic Added Successfully", Snackbar.LENGTH_LONG).show()
+                            val arg = Bundle()
+                            arg.putString(groupKey,group?.groupKey)
+                            val topics = ExistingTopics()
+                            topics.arguments = arg
 
+                            fragmentManager!!.beginTransaction().replace(R.id.eachTopicFragment, topics).commit()
+                        }
+                    }else{
+                        view?.let { it1 ->
+                            Snackbar.make(it1, it["error"].toString(), Snackbar.LENGTH_LONG).show()
+                        }
+                    }
+                },
+                    Response.ErrorListener {
+                        view?.let { it1 -> Snackbar.make(it1, "Error Adding Topic", Snackbar.LENGTH_LONG).show() }
+                    })
 
+        Volley.newRequestQueue(context!!).add(jsonRequest)
     }
 
     fun getDegree():LinkedHashSet<String>{

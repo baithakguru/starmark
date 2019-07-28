@@ -1,11 +1,16 @@
 package guru.baithak.starmark.ui.mainScreen.Groups
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.NavUtils
 import android.util.Log
+import android.util.TypedValue
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -18,6 +23,7 @@ import guru.baithak.starmark.ui.groups.Chats.Chats
 import guru.baithak.starmark.ui.groups.Files.Files
 import guru.baithak.starmark.ui.groups.NewTopic.AddTopic
 import guru.baithak.starmark.ui.groups.Notifications.Notifications
+import guru.baithak.starmark.ui.groups.Topics.ExistingTopics
 import guru.baithak.starmark.ui.groups.groupDetails.GroupDetails
 import kotlinx.android.synthetic.main.activity_each_group.*
 import java.io.File
@@ -50,7 +56,9 @@ class EachGroup : AppCompatActivity() {
 
         }
         b.putParcelable(groupName,group)
+        b.putString(groupKey,group!!.groupKey)
         b.putBoolean("fromMain",true)
+
         eachGroupBottomNav.setOnNavigationItemSelectedListener{menu:MenuItem->
             when(menu.itemId){
                 R.id.bottomMessage->{
@@ -69,7 +77,7 @@ class EachGroup : AppCompatActivity() {
                 R.id.bottomCall->
                     swapFragment(Calls())
                 R.id.bottomNoti->{
-                    val noti = Notifications()
+                    val noti = ExistingTopics()
                     noti.arguments = b
                     swapFragment(noti)
                 }
@@ -84,7 +92,7 @@ class EachGroup : AppCompatActivity() {
             return@setOnNavigationItemSelectedListener true
 
         }
-        val noti = Notifications()
+        val noti = ExistingTopics()
         noti.arguments = b
         swapFragment(noti)
         groupNameEachGroup.text = group!!.groupName
@@ -92,6 +100,20 @@ class EachGroup : AppCompatActivity() {
 //        Toast.makeText(this,"Size :"+group!!.keyTopic.size,Toast.LENGTH_SHORT ).show()
 //        eachTopicRecycler.adapter = TopicListAdapter(this,group!!.keyTopic)
 //        eachTopicRecycler.layoutManager = LinearLayoutManager(this)
+
+        val bitmap = Bitmap.createBitmap(dpToPx(80f).toInt(),dpToPx(80f).toInt(), Bitmap.Config.ARGB_8888)
+        val p = Paint(Paint.ANTI_ALIAS_FLAG)
+        p.isAntiAlias=true
+
+
+        p.textSize=dpToPx(50f)
+        p.color= Color.parseColor("#FFFFFF")
+        val canvas = Canvas(bitmap)
+//        canvas.drawARGB(100,45,45,45)
+        canvas.drawColor(Color.parseColor("#2201579b"))
+        canvas.drawText(group!!.groupName!!.capitalize().substring(0,1),bitmap.width/2f-dpToPx(16f),bitmap.height/2f+dpToPx(16f),p)
+        groupIconEachGroup.setImageBitmap(bitmap)
+
 
     }
     fun swapFragment(frag:Fragment){
@@ -104,6 +126,10 @@ class EachGroup : AppCompatActivity() {
          i.putExtra(groupName,group)
          i.putExtra(groupKey,group!!.groupKey)
         startActivity(i)
+    }
+
+    fun dpToPx(dp:Float):Float{
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dp,resources.displayMetrics)
     }
 
 

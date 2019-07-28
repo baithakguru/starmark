@@ -1,5 +1,7 @@
 package guru.baithak.starmark.ui.mainScreen
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
@@ -8,10 +10,16 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
+import com.google.firebase.auth.FirebaseAuth
+import guru.baithak.starmark.Helpers.sharedPref
+import guru.baithak.starmark.Helpers.userName
+import guru.baithak.starmark.Helpers.userNameSharedPref
 import guru.baithak.starmark.R
 import guru.baithak.starmark.ui.mainScreen.Calls.Calls
 import guru.baithak.starmark.ui.mainScreen.Groups.Groups
 import guru.baithak.starmark.ui.mainScreen.Plans.Plans
+import guru.baithak.starmark.ui.register.Login
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
@@ -32,6 +40,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+        nav_view.getHeaderView(0).findViewById<TextView>(R.id.greetingHeader).text = "Welcome "+getSharedPreferences(sharedPref, Context.MODE_PRIVATE).getString(userNameSharedPref,"User")
+
+
         viewSetter()
     }
 
@@ -54,31 +65,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
-            R.id.action_settings -> return true
+            R.id.logoutActionBar -> {
+                logout()
+                return true
+            }
             else -> return super.onOptionsItemSelected(item)
         }
+    }
+
+    fun logout(){
+        FirebaseAuth.getInstance().signOut()
+        getSharedPreferences(sharedPref, Context.MODE_PRIVATE).edit().clear().apply()
+        val i = Intent(this,Login::class.java)
+        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(i)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_camera -> {
-                // Handle the camera action
-            }
-            R.id.nav_gallery -> {
-
-            }
-            R.id.nav_slideshow -> {
-
-            }
-            R.id.nav_manage -> {
-
-            }
-            R.id.nav_share -> {
-
-            }
-            R.id.nav_send -> {
-
+            R.id.logout->{
+               logout()
             }
         }
 

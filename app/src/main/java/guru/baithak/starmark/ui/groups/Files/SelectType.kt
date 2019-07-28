@@ -36,7 +36,7 @@ class SelectType : BottomSheetDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val v = inflater.inflate(layout.fragment_select_type, container, false)
+        val v = inflater.inflate(R.layout.fragment_select_type, container, false)
         return v
     }
 

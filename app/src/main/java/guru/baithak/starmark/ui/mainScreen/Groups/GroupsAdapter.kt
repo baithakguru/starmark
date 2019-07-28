@@ -1,6 +1,10 @@
 package guru.baithak.starmark.ui.mainScreen.Groups
 
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.ComponentCallbacks
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -17,12 +21,26 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import guru.baithak.starmark.Helpers.groupKey
 import guru.baithak.starmark.Models.Groups
 import guru.baithak.starmark.Helpers.groupName
 import guru.baithak.starmark.R
 
-class GroupsAdapter(c : Context , groups : ArrayList<Groups>) : RecyclerView.Adapter<ViewHolderGroups>() {
+class GroupsAdapter(c : Context , groups : ArrayList<Groups>) : RecyclerView.Adapter<ViewHolderGroups>(),ViewHolderGroups.DeleteGroup {
+    override fun delete(groupId: String) {
+        for(g in groups){
+            if(g.groupKey == groupId){
+                groups.remove(g)
+                val path ="users/"+FirebaseAuth.getInstance().currentUser?.uid+"/groups/"+groupId
+                FirebaseDatabase.getInstance().getReference(path).setValue(null)
+                notifyDataSetChanged()
+                break
+            }
+        }
+    }
+
     val c:Context =c
     val groups:ArrayList<Groups> = groups
 
@@ -32,7 +50,7 @@ class GroupsAdapter(c : Context , groups : ArrayList<Groups>) : RecyclerView.Ada
                R.layout.viewholder_groups,
                p0,
                false
-           ), c
+           ), c,this
        )
     }
 
@@ -41,7 +59,7 @@ class GroupsAdapter(c : Context , groups : ArrayList<Groups>) : RecyclerView.Ada
     }
 
     override fun onBindViewHolder(p0: ViewHolderGroups, p1: Int) {
-        p0.name.text=groups[p1].groupName+groups[p1].topics.size
+        p0.name.text=groups[p1].groupName
         p0.lastActive.text= groups[p1].lastActive
         p0.members.text= groups[p1].member
         p0.item.tag = groups[p1]
@@ -88,7 +106,7 @@ class GroupsAdapter(c : Context , groups : ArrayList<Groups>) : RecyclerView.Ada
 }
 
 
-class ViewHolderGroups(val item : View,val c:Context) : RecyclerView.ViewHolder(item){
+class ViewHolderGroups(val item : View,val c:Context,val callbacks: DeleteGroup) : RecyclerView.ViewHolder(item){
     val name : TextView = item.findViewById(R.id.groupName) as TextView
     val members : TextView = item.findViewById(R.id.groupMembers) as TextView
     val lastActive : TextView = item.findViewById(R.id.groupActive) as TextView
@@ -107,6 +125,35 @@ class ViewHolderGroups(val item : View,val c:Context) : RecyclerView.ViewHolder(
             }
 
         }
+        item.setOnLongClickListener(object :View.OnLongClickListener{
+            override fun onLongClick(v: View?): Boolean {
+                if(((v!!.tag as Groups).isActive)){
+                    Toast.makeText(c,"Cannot delete an active group",Toast.LENGTH_SHORT).show()
+                    return true
+                }
+                AlertDialog.Builder(c).setMessage("Are you sure you want to delete this group?").setPositiveButton("No",
+                        object :DialogInterface.OnClickListener{
+                            override fun onClick(dialog: DialogInterface?, which: Int) {
+                                dialog?.dismiss()
+                            }
+                        }
+                        ).setNegativeButton("Yes",
+                        object :DialogInterface.OnClickListener{
+                            override fun onClick(dialog: DialogInterface?, which: Int) {
+                                callbacks.delete((v.tag as Groups).groupKey!!)
+                                dialog?.dismiss()
+                            }
+                        }
+                        ).show()
+                return true
+
+            }
+
+        })
+    }
+
+    interface DeleteGroup{
+        fun delete(groupId:String)
     }
 
 }

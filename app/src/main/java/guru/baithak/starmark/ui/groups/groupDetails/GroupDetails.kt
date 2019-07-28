@@ -41,7 +41,6 @@ class GroupDetails : AppCompatActivity() {
         setContentView(R.layout.activity_group_details)
         progress = ProgressDialog.show(this,"Getting group info","Please wait while we fetch details")
         setSupportActionBar(toolbar)
-//        actionBar!!.title = "Trial"
         supportActionBar!!.title=" "
         groupId = intent.getStringExtra(groupKey)
         val group = intent.getParcelableExtra(guru.baithak.starmark.Helpers.groupName) as Groups
@@ -56,6 +55,7 @@ class GroupDetails : AppCompatActivity() {
         })
 
     }
+
     fun getData(){
         val selfId = FirebaseAuth.getInstance().currentUser!!.uid
         val path = "groups/"+groupId//+"/members/avail"
@@ -105,7 +105,11 @@ class GroupDetails : AppCompatActivity() {
 
 
         groupDetails.text =  String.format("%d members\nCreator: %s\nCreated at: %s",memberList.size,dataSnapshot.child("createdBy").value,dateFormat)
-
+        var desc = "No description available"
+        if(dataSnapshot.child("desc").exists() and !(dataSnapshot.child("desc").value as String).trim().isEmpty()){
+            desc =  dataSnapshot.child("desc").value as String
+        }
+        groupDecs.text =desc
 
         setRecycler()
         leaveGroup.setOnClickListener {
