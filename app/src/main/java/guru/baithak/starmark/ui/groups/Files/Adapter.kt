@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.net.Uri
 import android.os.Environment
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,13 +40,18 @@ class Adapter(val c: Context, val files: ArrayList<HashMap<String, Any>>): Recyc
         }
         catch (e:Exception){
         }
-        p0.head.text=files[p1].get("createdByName").toString()+" uploaded "+files[p1]["fileName"].toString()
-        p0.topic.text = name
+        if(name.trim().isEmpty()){
+            name ="root"
+        }
+
+        p0.head.text=files[p1]["fileName"].toString()
+        p0.topic.text = String.format("#%s by %s",name,files[p1]["createdByName"] as String)
         val date =Date(files[p1].get("createdAt")as Long)
         val format = SimpleDateFormat("dd-M-yy")
         p0.time.text = format.format(date)
         p0.v.setOnClickListener {
             val request = DownloadManager.Request(Uri.parse(files[p1]["url"] as String))
+            Log.i("downloadUrl",(Uri.parse(files[p1]["url"] as String)).toString())
             request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,files[p1]["fileName"] as String)
             (c.getSystemService(DOWNLOAD_SERVICE) as DownloadManager).enqueue(request)
             Toast.makeText(c,"Your download is started",Toast.LENGTH_SHORT).show()

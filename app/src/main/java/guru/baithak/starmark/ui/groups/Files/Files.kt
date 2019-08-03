@@ -35,6 +35,7 @@ class Files : Fragment() {
     val files=ArrayList<HashMap<String,Any>>()
     var path:String?=null
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,10 +51,9 @@ class Files : Fragment() {
         return inflater.inflate(R.layout.fragment_files, container, false)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        selectFileFAB.setOnClickListener { v->
+        selectFileFAB.setOnClickListener{ v->
             add(v)
         }
     }
@@ -104,10 +104,16 @@ class Files : Fragment() {
 //                    }
 //                }
                 if(files.size!=0){
-                    emptyFiles.visibility = View.INVISIBLE
+                    emptyFiles?.let{it.visibility = View.INVISIBLE}
                 }
-                fileRecycler.adapter = Adapter(context!!,files)
-                fileRecycler.layoutManager = LinearLayoutManager(context) as RecyclerView.LayoutManager?
+                fileRecycler?.let{
+                    it.adapter = Adapter(context!!,files)
+                    val layoutManager = LinearLayoutManager(context)
+                    layoutManager.reverseLayout = true
+                    layoutManager.stackFromEnd = true
+                    it.layoutManager = layoutManager
+
+                }
 
             }
         })
@@ -126,7 +132,6 @@ class Files : Fragment() {
         dialog.topics = topics
         dialog.spinnerListener = object :AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -140,7 +145,7 @@ class Files : Fragment() {
     fun find(){
         when(type){
             1,0->{////todo add proper types
-                val mime= "*/*"
+                val mime= "image/**"
                 val i = Intent(Intent.ACTION_GET_CONTENT)
                 i.type = mime
                 startActivityForResult(Intent.createChooser(i,"Choose app to select app"), FILE_PICKER_REQUEST)

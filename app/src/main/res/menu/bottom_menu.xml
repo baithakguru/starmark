@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-<item android:title="notification" android:icon="@drawable/notification" android:id="@+id/bottomNoti"/>
+<item android:title="notification" android:icon="@drawable/ic_home_black_24dp" android:id="@+id/bottomNoti"/>
 <item android:title="call" android:icon="@drawable/phone" android:id="@+id/bottomCall"/>
 <item android:title="newGroup" android:icon="@drawable/ic_add_circle_black_24dp" android:id="@+id/bottomAdd"/>
 <item android:title="chat" android:icon="@drawable/message" android:id="@+id/bottomMessage"/>

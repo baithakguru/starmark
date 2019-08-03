@@ -16,25 +16,38 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import java.io.File
 import java.lang.Exception
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.HashMap
 
 class UploadFile(val basePath:String, val callBack:ResultUpload,val c:Context){
     var file:Uri?=null
     var uri:String?=null
     var type:String ="url"
     var path:String = basePath
+    val pattern = "dd-MMM-YY HH:mm:ss"
 
     fun getFileName():String{
         var name= file!!.lastPathSegment
-
-    try {
-        val cur = c.contentResolver.query(file!!,null,null,null,null)
-        val index = cur.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-         name = cur.getString(index)
-        cur!!.close()
-    }catch (err:Exception){
-
-    }
-
+//
+//    try {
+//        val cur = c.contentResolver.query(file!!,null,null,null,null)
+//        val index = cur.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+//         name = cur.getString(index)
+//        cur!!.close()
+//    }catch (err:Exception){
+//
+//    }
+        if(type== objectTypes[0]){
+            val format = SimpleDateFormat(pattern)
+            val date = Date()
+            name = String.format("IMG_%s",format.format(date))
+        }
+        if(type== objectTypes[1]){
+            val format = SimpleDateFormat(pattern)
+            val date = Date()
+            name = String.format("DOC_%s",format.format(date))
+        }
         return name!!
     }
 

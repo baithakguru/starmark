@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/noTopicsAdded"
-        android:text="No Topic has been added to this group"
+        android:text="No Topic has been added to this Subject"
         android:padding="24dp"
         android:textAlignment="center"
         android:textSize="16sp"

@@ -1,6 +1,8 @@
 package guru.baithak.starmark.ui.groups.Topics
 
 
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -18,16 +20,40 @@ import guru.baithak.starmark.R
 import kotlinx.android.synthetic.main.fragment_existing_topics.*
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class ExistingTopics : Fragment() {
     val details =ArrayList<TopicsCollection>()
     var key:String?=null
+    var keySubject:String?=null
+    var name:String?=null
+    var stars = HashMap<String,Int>()
+
+    override fun onResume() {
+        super.onResume()
+        val br = Intent()
+        br.setAction(context!!.packageName+".TopicSelected")
+        br.putExtra("groupName",name)
+        br.putExtra("subjectKey",keySubject)
+        context!!.sendBroadcast(br)
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val br = Intent()
+        br.setAction(context!!.packageName+".TopicSelected")
+        br.putExtra("groupName","reset")
+        context!!.sendBroadcast(br)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        key = arguments!![groupKey] as String
+        key = arguments!!["groupKey"] as String
+        keySubject = arguments!!["subjectKey"] as String
+        name = arguments!!["groupName"] as String
         return inflater.inflate(R.layout.fragment_existing_topics, container, false)
     }
 
@@ -37,31 +63,38 @@ class ExistingTopics : Fragment() {
     }
 
     fun getData(){
-        val path="groups/"+key+"/subjects"
+        val path="groups/"+key+"/subjects/"+keySubject
         FirebaseDatabase.getInstance().getReference(path).addValueEventListener(object :ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
-            override fun onDataChange(p0: DataSnapshot) {
-
+            override fun onDataChange(p1: DataSnapshot) {
+                Log.i("new Data in existing",p1.toString())
                 details.clear()
-                for(p1 in p0.children){
-                    val subName = (p1.child("detailsTopic").value as String).split("/")
-                    val local = ArrayList<TopicsCollection>()
-                    for(subTop in p1.child("contents").children){
-                        local.add(generateData(subTop))
-                    }
-                    details.add(TopicsCollection(subName[subName.size-1],0,local))
+                for(subjects in p1.child("contents").children){
+                    details.add(generateData(subjects))
+                }
+                stars.clear()
+                for(subjects in p1.child("stars").children){
+                    stars[subjects.key!!] = Integer.parseInt(subjects.value.toString())
                 }
 
-                topicsLoader.visibility = View.GONE
+                topicsLoader?.visibility = View.GONE
                 if(details.size == 0){
-                    noTopicsAdded.visibility = View.VISIBLE
+                    noTopicsAdded?.visibility = View.VISIBLE
+                }
+                expandableTopics?.let {
+                    if(it.adapter == null){
+                        it.adapter = (ExpandAdapter(context!!, details, true,key+"/topics/"+keySubject,stars,""))
+                        it.layoutManager = LinearLayoutManager(context)
+                    }else{
+                        (it.adapter as ExpandAdapter).details = details
+                        (it.adapter as ExpandAdapter).stars = stars
+                        (it.adapter as ExpandAdapter).notifyDataSetChanged()
+                    }
+
                 }
 
-                expandableTopics?.adapter = (ExpandAdapter(context!!, details, true))
-                expandableTopics?.layoutManager = LinearLayoutManager(context)
             }
         })
 

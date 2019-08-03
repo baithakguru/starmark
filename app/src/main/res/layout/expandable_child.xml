@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:padding="8dp"
-
         android:layout_height="wrap_content">
 
         <TextView
@@ -16,12 +15,14 @@
             android:layout_height="wrap_content"
             android:text="This is subtopic"
             android:visibility="gone"
+            android:layout_centerVertical="true"
             android:id="@+id/topicNameHead"
             />
         <TextView
-
+            android:layout_centerVertical="true"
             android:textSize="16sp"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="100dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="This is subtopic"
@@ -30,12 +31,21 @@
 
         <ImageView
             android:id="@+id/expandTopic"
-            android:layout_marginEnd="16dp"
+            android:padding="16dp"
             android:layout_width="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add"/>
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="60dp"
+            android:id="@+id/starCount"
+            android:src="@drawable/star_many"/>
+
     </RelativeLayout>
 
 
