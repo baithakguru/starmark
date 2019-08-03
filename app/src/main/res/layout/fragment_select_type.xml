@@ -39,8 +39,7 @@
                     android:layout_width="50dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_height="50dp"
-
-                    android:src="@color/colorPrimary"/>
+                    android:src="@drawable/picture"/>
                 <TextView
                     android:layout_gravity="center_horizontal"
                     android:layout_width="wrap_content"
@@ -58,7 +57,7 @@
                     android:layout_width="50dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_height="50dp"
-                    android:src="@color/colorPrimary"/>
+                    android:src="@drawable/documents"/>
                 <TextView
                     android:layout_gravity="center_horizontal"
                     android:layout_width="wrap_content"
@@ -76,7 +75,7 @@
                     android:layout_width="50dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_height="50dp"
-                    android:src="@color/colorPrimary"/>
+                    android:src="@drawable/headphones"/>
                 <TextView
                     android:layout_gravity="center_horizontal"
                     android:layout_width="wrap_content"
@@ -104,7 +103,7 @@
                     android:layout_width="50dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_height="50dp"
-                    android:src="@color/colorPrimary"/>
+                    android:src="@drawable/whiteboard"/>
                 <TextView
                     android:layout_gravity="center_horizontal"
                     android:layout_width="wrap_content"
@@ -122,7 +121,7 @@
                     android:layout_width="50dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_height="50dp"
-                    android:src="@color/colorPrimary"/>
+                    android:src="@drawable/camera"/>
                 <TextView
                     android:layout_gravity="center_horizontal"
                     android:layout_width="wrap_content"
@@ -140,7 +139,7 @@
                     android:layout_width="50dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_height="50dp"
-                    android:src="@color/colorPrimary"/>
+                    android:src="@drawable/phone_book"/>
                 <TextView
                     android:layout_gravity="center_horizontal"
                     android:layout_width="wrap_content"
