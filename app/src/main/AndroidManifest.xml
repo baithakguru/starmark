@@ -28,16 +28,12 @@
             android:label="@string/title_activity_group_details"
             android:parentActivityName=".ui.mainScreen.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.mainScreen.MainActivity" />
+
         </activity>
         <activity
             android:name=".ui.mainScreen.Groups.EachGroup"
-            android:parentActivityName=".ui.mainScreen.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.mainScreen.MainActivity" />
+            >
+
         </activity>
         <activity
             android:name=".ui.newGroup.SelectMembers.SelectContacts"

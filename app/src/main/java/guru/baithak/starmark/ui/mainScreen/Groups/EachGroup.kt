@@ -11,6 +11,8 @@ import android.graphics.Paint
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
+import android.support.design.internal.BottomNavigationItemView
+import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.NavUtils
 import android.util.Log
@@ -32,16 +34,25 @@ import guru.baithak.starmark.ui.groups.Topics.ExistingTopics
 import guru.baithak.starmark.ui.groups.groupDetails.GroupDetails
 import kotlinx.android.synthetic.main.activity_each_group.*
 import java.io.File
+import guru.baithak.starmark.ui.mainScreen.MainActivity
+
+
 
 class EachGroup : AppCompatActivity() {
 
     var group: Groups?= null
     var subjectKey: String? = null
+    var listener:BottomNavigationView.OnNavigationItemSelectedListener?=null
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_each_group)
         setSupportActionBar(eachGroupActionBar)
+//        eachGroupActionBar.setOnClickListener {
+//
+//        }
 //        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         group = intent.getParcelableExtra<Groups>(groupName)
         group!!.groupKey = intent.getStringExtra(groupKey)
@@ -58,14 +69,20 @@ class EachGroup : AppCompatActivity() {
     fun viewSetter(){
         val b = Bundle()
         falseUp.setOnClickListener{v->
-            NavUtils.navigateUpFromSameTask(this)
 
+            if(supportFragmentManager.findFragmentById(R.id.eachTopicFragment) is AllTopics){
+                onBackPressed()
+                return@setOnClickListener
+            }
+            eachGroupBottomNav.selectedItemId = R.id.bottomNoti
         }
         b.putParcelable(groupName,group)
         b.putString(groupKey,group!!.groupKey)
         b.putBoolean("fromMain",true)
 
-        eachGroupBottomNav.setOnNavigationItemSelectedListener{menu:MenuItem->
+
+        listener =BottomNavigationView.OnNavigationItemSelectedListener{
+            menu:MenuItem->
             when(menu.itemId){
                 R.id.bottomMessage->{
 
@@ -95,9 +112,11 @@ class EachGroup : AppCompatActivity() {
 
                  }
             }
-            return@setOnNavigationItemSelectedListener true
+            return@OnNavigationItemSelectedListener true
 
         }
+        eachGroupBottomNav.setOnNavigationItemSelectedListener(listener!!)
+
         val noti = AllTopics()
         noti.arguments = b
         swapFragment(noti)
@@ -158,5 +177,19 @@ class EachGroup : AppCompatActivity() {
     }
 
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                if(supportFragmentManager.findFragmentById(R.id.eachTopicFragment) is AllTopics){
+                    onBackPressed()
+                    return true
+                }
+
+                eachGroupBottomNav.selectedItemId = R.id.bottomNoti
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
 
 }

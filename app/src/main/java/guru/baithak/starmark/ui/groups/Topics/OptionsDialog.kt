@@ -3,6 +3,7 @@ package guru.baithak.starmark.ui.groups.Topics
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,12 +24,16 @@ class OptionsDialog : DialogFragment() {
     val unMark = "Remove subject as important"
 
     var ref:DatabaseReference?=null
+    var dir=""
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         arguments?.let {
             path = it.getString("path")
+            val split = path!!.split("/")
+            dir  = "media/"+split[0]+(it.getString("dir"))!!
+            Log.i("finalDir",dir)
             getData()
         }
 
@@ -48,12 +53,7 @@ class OptionsDialog : DialogFragment() {
                         viewSetter()
                     }
                 }
-
-
-
         )
-
-
     }
 
     private fun viewSetter() {
@@ -82,18 +82,19 @@ class OptionsDialog : DialogFragment() {
             }
         }
         viewFilesSub.setOnClickListener {
-            val dir = path+"/"+"finalSubject"
+            val dir= dir
             val f = Files()
             val b = Bundle()
             b.putBoolean("fromMain",false)
             b.putString("path",dir)
             f.arguments = b
             ((context)as AppCompatActivity).supportFragmentManager.beginTransaction()
-                    .addToBackStack(null).replace(R.id.eachTopicFragment,f).commit()
+                     .addToBackStack(null).replace(R.id.eachTopicFragment,f).commit()
+            dismiss()
         }
-        uploadFilesSub.setOnClickListener {
-
-        }
+//        uploadFilesSub.setOnClickListener {
+//
+//        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

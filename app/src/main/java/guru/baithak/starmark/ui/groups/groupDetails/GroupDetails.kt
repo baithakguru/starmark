@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.util.TimeUtils
+import android.view.MenuItem
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
@@ -135,6 +136,18 @@ class GroupDetails : AppCompatActivity() {
 
 
 
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+//                Toast.makeText(this,"djksdjkd",Toast.LENGTH_SHORT).show()
+                onBackPressed()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 
     private fun setRecycler() {

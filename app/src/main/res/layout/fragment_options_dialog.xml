@@ -55,6 +55,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:alpha=".8"
+            android:visibility="gone"
             />
         <TextView
             android:id="@+id/uploadFilesSub"
@@ -62,6 +63,7 @@
            android:layout_height="wrap_content"
            android:text="Upload file"
            android:textSize="18sp"
+            android:visibility="gone"
            android:textColor="@color/colorPrimary"
            android:textAlignment="center"
            android:padding="16dp"/>

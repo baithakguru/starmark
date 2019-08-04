@@ -27,7 +27,6 @@ class ExpandAdapter(val c:Context,var details:ArrayList<TopicsCollection>,val is
             newVal--
         }
         stars[key] = newVal
-
         notifyDataSetChanged()
     }
 
@@ -47,7 +46,10 @@ class ExpandAdapter(val c:Context,var details:ArrayList<TopicsCollection>,val is
         }
         p0.text.text = details[p1].name
         p0.head.text = details[p1].name
-        p0.item.tag = (from+"/"+ details[p1].name)
+        val b = Bundle()
+        b.putString("path", from+"/"+ details[p1].name)
+        b.putString("dir",  tillNow+"/"+ details[p1].name)
+        p0.item.tag = b
 
         try {
             if(stars.containsKey(details[p1].name)){
@@ -56,6 +58,7 @@ class ExpandAdapter(val c:Context,var details:ArrayList<TopicsCollection>,val is
                     0->{
                         p0.star.visibility = View.INVISIBLE
                     }
+
                     1->{
                         p0.star.setImageDrawable(c.getDrawable(R.drawable.star_1))
                     }
@@ -67,6 +70,7 @@ class ExpandAdapter(val c:Context,var details:ArrayList<TopicsCollection>,val is
                     3->{
                         p0.star.setImageDrawable(c.getDrawable(R.drawable.star_3))
                     }
+
                     else->{
                         p0.star.setImageDrawable(c.getDrawable(R.drawable.star_many))
                     }
@@ -114,13 +118,11 @@ class ExpandAdapter(val c:Context,var details:ArrayList<TopicsCollection>,val is
 
         init {
             val listener = View.OnClickListener {
-                val b = Bundle()
-                b.putString("path", it.tag as String)
+                val b = it.tag as Bundle
                 val dialog  = OptionsDialog()
                 dialog.listener = listener
                 dialog.arguments = b
                 dialog.show((c as AppCompatActivity).supportFragmentManager,"Item clicked")
-
             }
             item.setOnClickListener(listener)
         }

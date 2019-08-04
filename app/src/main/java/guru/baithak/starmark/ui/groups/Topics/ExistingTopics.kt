@@ -64,8 +64,9 @@ class ExistingTopics : Fragment() {
 
     fun getData(){
         val path="groups/"+key+"/subjects/"+keySubject
-        FirebaseDatabase.getInstance().getReference(path).addValueEventListener(object :ValueEventListener{
-            override fun onCancelled(p0: DatabaseError) {
+        FirebaseDatabase.getInstance().getReference(path)
+                .addValueEventListener(object :ValueEventListener{
+            override fun onCancelled(p0: DatabaseError){
             }
 
             override fun onDataChange(p1: DataSnapshot) {
@@ -78,27 +79,23 @@ class ExistingTopics : Fragment() {
                 for(subjects in p1.child("stars").children){
                     stars[subjects.key!!] = Integer.parseInt(subjects.value.toString())
                 }
-
                 topicsLoader?.visibility = View.GONE
                 if(details.size == 0){
                     noTopicsAdded?.visibility = View.VISIBLE
                 }
                 expandableTopics?.let {
                     if(it.adapter == null){
-                        it.adapter = (ExpandAdapter(context!!, details, true,key+"/topics/"+keySubject,stars,""))
+                        it.adapter = (ExpandAdapter(context!!, details, true,
+                                key+"/topics/"+keySubject,stars,""))
                         it.layoutManager = LinearLayoutManager(context)
                     }else{
                         (it.adapter as ExpandAdapter).details = details
                         (it.adapter as ExpandAdapter).stars = stars
                         (it.adapter as ExpandAdapter).notifyDataSetChanged()
                     }
-
                 }
-
             }
         })
-
-
     }
 
 

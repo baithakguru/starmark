@@ -16,9 +16,14 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import java.io.File
 import java.lang.Exception
+import java.net.FileNameMap
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
+import android.webkit.MimeTypeMap
+import android.content.ContentResolver
+
+
 
 class UploadFile(val basePath:String, val callBack:ResultUpload,val c:Context){
     var file:Uri?=null
@@ -27,8 +32,30 @@ class UploadFile(val basePath:String, val callBack:ResultUpload,val c:Context){
     var path:String = basePath
     val pattern = "dd-MMM-YY HH:mm:ss"
 
+    fun getMimeType(context: Context, uri: Uri): String? {
+        val extension: String?
+
+        //Check uri format to avoid null
+        if (uri.scheme == ContentResolver.SCHEME_CONTENT) {
+            //If scheme is a content
+            val mime = MimeTypeMap.getSingleton()
+            extension = mime.getExtensionFromMimeType(context.contentResolver.getType(uri))
+        } else {
+            //If scheme is a File
+            //This will replace white spaces with %20 and also other special characters. This will avoid returning null values on file name with spaces and special characters.
+            extension = MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(File(uri.path)).toString())
+
+        }
+
+        return extension
+    }
+
+
     fun getFileName():String{
         var name= file!!.lastPathSegment
+//        var name = File(file!!.path).name
+//        val lastIndexOf = name.lastIndexOf(".")
+//        val nameSplit= name!!.split("\\.")
 //
 //    try {
 //        val cur = c.contentResolver.query(file!!,null,null,null,null)
@@ -41,12 +68,12 @@ class UploadFile(val basePath:String, val callBack:ResultUpload,val c:Context){
         if(type== objectTypes[0]){
             val format = SimpleDateFormat(pattern)
             val date = Date()
-            name = String.format("IMG_%s",format.format(date))
+            name = String.format("IMG_%s.%s",format.format(date), getMimeType(c,file!!))
         }
         if(type== objectTypes[1]){
             val format = SimpleDateFormat(pattern)
             val date = Date()
-            name = String.format("DOC_%s",format.format(date))
+            name = String.format("DOC_%s.%s",format.format(date), getMimeType(c,file!!))
         }
         return name!!
     }

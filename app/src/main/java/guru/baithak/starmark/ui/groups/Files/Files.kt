@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -24,6 +25,9 @@ import guru.baithak.starmark.Models.Groups
 import guru.baithak.starmark.R
 import kotlinx.android.synthetic.main.fragment_files.*
 import java.lang.Exception
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class Files : Fragment() {
@@ -33,7 +37,7 @@ class Files : Fragment() {
     var topicSelected :String?=null
     var type:Int=0
     val files=ArrayList<HashMap<String,Any>>()
-    var path:String?=null
+    var pathIncoming:String?=null
 
 
     override fun onCreateView(
@@ -42,9 +46,9 @@ class Files : Fragment() {
     ): View? {
         if(arguments!!.getBoolean("fromMain")){
             group = arguments!!.getParcelable<Groups>(groupName).groupKey
-            path = "media/"+group
+            pathIncoming = "media/"+group
         }else{
-            path = arguments!!.getString("path")
+            pathIncoming = arguments!!.getString("path")
         }
         getData()
         // Inflate the layout for this fragment
@@ -61,8 +65,17 @@ class Files : Fragment() {
     fun getFiles(dataSnap :DataSnapshot,path:String){
         try {
             if(dataSnap.hasChild("fileName")){
+                var star = 0
+                var selfMarked = false
+                for(d in dataSnap.child("stars").children){
+                    star++
+                    if(d.key!! == FirebaseAuth.getInstance().currentUser!!.uid)
+                        selfMarked = true
+                }
                 val data=dataSnap.value as HashMap<String, Any>
-                data.put("topic",path)
+                data.put("topic",pathIncoming+ path)
+                data.put("stars",star)
+                data.put("selfMark",selfMarked)
                 files.add(data)
             }else{
                 for (child in dataSnap.children){
@@ -80,7 +93,7 @@ class Files : Fragment() {
         progress.setTitle("Loading index")
         progress.show()
 
-        FirebaseDatabase.getInstance().getReference(path!!).addValueEventListener(object :ValueEventListener{
+        FirebaseDatabase.getInstance().getReference(pathIncoming!!).addValueEventListener(object :ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
                 progress.dismiss()
                 Toast.makeText(context,"Some Error occured while fetching list",Toast.LENGTH_LONG).show()
@@ -103,9 +116,16 @@ class Files : Fragment() {
 //                        files.add(data)
 //                    }
 //                }
+
                 if(files.size!=0){
                     emptyFiles?.let{it.visibility = View.INVISIBLE}
                 }
+                Collections.sort(files,kotlin.Comparator { o1, o2 ->
+                    return@Comparator (((o1["createdAt"].toString().toLong()*10000)-
+                            (o2["createdAt"].toString().toLong()*10000))).toInt()*-1
+
+                })
+
                 fileRecycler?.let{
                     it.adapter = Adapter(context!!,files)
                     val layoutManager = LinearLayoutManager(context)
@@ -144,7 +164,7 @@ class Files : Fragment() {
 
     fun find(){
         when(type){
-            1,0->{////todo add proper types
+            0->{////todo add proper types
                 val mime= "image/**"
                 val i = Intent(Intent.ACTION_GET_CONTENT)
                 i.type = mime
@@ -172,7 +192,7 @@ class Files : Fragment() {
     fun upload(uri:Uri){
 //        var path = "media/"+ group+"/files/"+topicSelected
         val progress = ProgressDialog(context)
-        val helper = UploadFile(path!!,object :UploadFile.ResultUpload{
+        val helper = UploadFile(pathIncoming!!,object :UploadFile.ResultUpload{
             override fun results(successFull: Boolean, success: String?, error: String?) {
                    progress.dismiss()
                 if(successFull){

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:padding="16dp"
+    android:layout_height="wrap_content"
+    tools:context=".ui.groups.Files.FileOptions">
+
+    <ProgressBar
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mark File important"
+            android:textSize="18sp"
+            android:id="@+id/fileImportant"
+            android:textColor="@color/colorPrimary"
+            android:textAlignment="center"
+            android:padding="16dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorPrimary"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:alpha=".8"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Download file"
+            android:textSize="18sp"
+            android:id="@+id/fileDownload"
+            android:textColor="@color/colorPrimary"
+            android:textAlignment="center"
+            android:padding="16dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorPrimary"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:alpha=".8"
+            android:visibility="gone"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View file"
+            android:textSize="18sp"
+            android:id="@+id/fileView"
+            android:visibility="gone"
+            android:textColor="@color/colorPrimary"
+            android:textAlignment="center"
+            android:padding="16dp"/>
+
+    </LinearLayout>
+
+</FrameLayout>
