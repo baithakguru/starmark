@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +29,7 @@ import guru.baithak.starmark.Models.Groups
 import guru.baithak.starmark.R
 import guru.baithak.starmark.ui.groups.Notifications.Notifications
 import guru.baithak.starmark.ui.groups.Topics.ExistingTopics
+import kotlinx.android.synthetic.main.activity_each_group.*
 import kotlinx.android.synthetic.main.fragment_add_topic.*
 import kotlinx.android.synthetic.main.fragment_groups.*
 import org.json.JSONObject
@@ -45,6 +47,8 @@ class AddTopic : Fragment() {
     var subjectString:String?=null
     var group:Groups?=null
     var canProced = false
+    var newTopic = false
+    var subjectKey :String?=null
 
     val topics :ArrayList<Course> = ArrayList()
 
@@ -64,6 +68,14 @@ class AddTopic : Fragment() {
             group = arguments!!.getParcelable(groupName) as Groups
             Log.d("GROUP",group!!.groupName)
             Log.d("GROUP",group!!.groupKey)
+            if(arguments!!.getBoolean("fromTopic")){
+                ifNewTopic.visibility = View.GONE
+                val split = arguments!!.getString("subjectName").split("/")
+                actionDesc.text = String.format("Add new topic to %s",split[split.size-1])
+                newTopic = true
+                subjectKey = arguments!!.getString("subjectKey")
+            }
+
         }else{
             Log.d("GROUP","error getting group")
         }
@@ -174,7 +186,22 @@ class AddTopic : Fragment() {
         spinnerCourse.onItemSelectedListener=courseCallback
         spinnerUniversity.onItemSelectedListener=universityCallback
         addTopicFinal.setOnClickListener{ _->
-            addTopicToDb()
+            if(newTopic){
+                if(addTopicNaiveTitle.text.toString().trim().isEmpty()){
+                    Toast.makeText(context,"Please enter valid text",Toast.LENGTH_SHORT).show()
+
+                    return@setOnClickListener
+                }
+                val path = "groups/"+group!!.groupKey+"/subjects/"+subjectKey+"/contents"
+                FirebaseDatabase.getInstance().getReference(path).child(addTopicNaiveTitle.text.toString()).setValue(0).addOnCompleteListener {
+                    Toast.makeText(context,"Topic added",Toast.LENGTH_SHORT).show()
+                    addTopicNaiveTitle.setText("")
+                }
+
+            }else{
+                addTopicToDb()
+            }
+
         }
 
     }

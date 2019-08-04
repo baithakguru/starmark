@@ -28,7 +28,8 @@ class AllTopicsAdapter(val c:Context,val groupKey:String,val topics:HashMap<Stri
     }
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
-        p0.topic.text = topicNames[p1]
+        val split = topicNames[p1].split("/")
+        p0.topic.text = split[split.size-1]
         p0.item.setOnClickListener {
             val frag = ExistingTopics()
             val b = Bundle()

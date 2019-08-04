@@ -74,6 +74,7 @@ class Files : Fragment() {
                 }
                 val data=dataSnap.value as HashMap<String, Any>
                 data.put("topic",pathIncoming+ path)
+                data.put("group",pathIncoming!!.split("/")[1])
                 data.put("stars",star)
                 data.put("selfMark",selfMarked)
                 files.add(data)
@@ -127,6 +128,7 @@ class Files : Fragment() {
                 })
 
                 fileRecycler?.let{
+                    val split = pathIncoming!!.split("/")
                     it.adapter = Adapter(context!!,files)
                     val layoutManager = LinearLayoutManager(context)
                     layoutManager.reverseLayout = true

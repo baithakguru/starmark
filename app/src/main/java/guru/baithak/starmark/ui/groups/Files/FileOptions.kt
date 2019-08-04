@@ -1,14 +1,18 @@
 package guru.baithak.starmark.ui.groups.Files
 
 
+import android.Manifest
 import android.app.DownloadManager
 import android.content.Context.DOWNLOAD_SERVICE
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v4.content.ContextCompat.getSystemService
 import android.util.Log
 import android.view.LayoutInflater
@@ -57,6 +61,8 @@ class FileOptions : DialogFragment() {
         }
 //        fileDownload.text = data["topic"].toString()
         fileDownload.setOnClickListener {
+            if(!hasPermissions())
+                return@setOnClickListener
             val request = DownloadManager.Request(Uri.parse(data["url"] as String))
             Log.i("downloadUrl",(Uri.parse(data["url"] as String)).toString())
             request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,data["fileName"] as String)
@@ -65,4 +71,20 @@ class FileOptions : DialogFragment() {
             context!!.registerReceiver(DownloadCompleted(), IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
         }
     }
+
+    fun hasPermissions():Boolean{
+        if (ContextCompat.checkSelfPermission(context!!, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(activity!!,
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    1)
+
+            return false
+        }
+
+
+        return true
+    }
+
 }

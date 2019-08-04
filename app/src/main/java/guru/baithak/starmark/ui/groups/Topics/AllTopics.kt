@@ -52,8 +52,8 @@ class AllTopics : Fragment() {
 
                     for(p1 in p0.children){
                         try{
-                        val details = p1.child("detailsTopic").value.toString().split("/")
-                        topics.put(details[details.size-1], p1.key!!)
+                        val details = p1.child("detailsTopic").value.toString()
+                        topics.put(details, p1.key!!)
                         }catch (e:Exception){}
                     }
                 allTopicsRecycler?.let {

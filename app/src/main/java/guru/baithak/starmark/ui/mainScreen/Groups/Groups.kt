@@ -39,7 +39,6 @@ class Groups : Fragment() {
         try {
             groupsRecycler.adapter = GroupsAdapter(context!!, groups)
             groupsRecycler.layoutManager = LinearLayoutManager(context)
-
         }catch (e:Exception){
 
         }

@@ -43,7 +43,7 @@ class Adapter(val c: Context, val files: ArrayList<HashMap<String, Any>>): Recyc
         }
         catch (e:Exception){
         }
-        if(name.trim().isEmpty()){
+        if(name.trim().isEmpty() || name.equals(files[p1]["group"])){
             name ="root"
         }
 

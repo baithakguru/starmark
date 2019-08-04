@@ -43,7 +43,7 @@ class EachGroup : AppCompatActivity() {
     var group: Groups?= null
     var subjectKey: String? = null
     var listener:BottomNavigationView.OnNavigationItemSelectedListener?=null
-
+    var inGroup:String?=null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,7 +71,7 @@ class EachGroup : AppCompatActivity() {
         falseUp.setOnClickListener{v->
 
             if(supportFragmentManager.findFragmentById(R.id.eachTopicFragment) is AllTopics){
-                onBackPressed()
+                NavUtils.navigateUpFromSameTask(this)
                 return@setOnClickListener
             }
             eachGroupBottomNav.selectedItemId = R.id.bottomNoti
@@ -93,6 +93,12 @@ class EachGroup : AppCompatActivity() {
                 }
                 R.id.bottomAdd->{
                     val addtopic = AddTopic()
+                    b.putBoolean("fromTopic",false)
+                    inGroup?.let {
+                        b.putBoolean("fromTopic",true)
+                        b.putString("subjectName",it)
+                        b.putString("subjectKey",subjectKey)
+                    }
                     addtopic.arguments = b
                     swapFragment(addtopic)
                 }
@@ -124,9 +130,7 @@ class EachGroup : AppCompatActivity() {
 //        Toast.makeText(this,"Size :"+group!!.keyTopic.size,Toast.LENGTH_SHORT ).show()
 //        eachTopicRecycler.adapter = TopicListAdapter(this,group!!.keyTopic)
 //        eachTopicRecycler.layoutManager = LinearLayoutManager(this)
-
        setActionBar(group!!.groupName!!)
-
         val intentFilter = IntentFilter(packageName+".TopicSelected")
         registerReceiver(object :BroadcastReceiver(){
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -134,9 +138,11 @@ class EachGroup : AppCompatActivity() {
                     var name = it.getStringExtra("groupName")
                     if(name.equals("reset")){
                         subjectKey =null
+                        inGroup = null
                         name = group!!.groupName
                     }else{
-                        it.getStringExtra("subjectKey")
+                        inGroup = name
+                        subjectKey = it.getStringExtra("subjectKey")
                     }
                     setActionBar(name)
                 }
@@ -145,7 +151,9 @@ class EachGroup : AppCompatActivity() {
 
     }
 
-    fun setActionBar(name:String){
+    fun setActionBar( nameOrignal:String){
+        val split = nameOrignal.split("/")
+        val name = split[split.size-1]
         groupNameEachGroup.text =name
         val bitmap = Bitmap.createBitmap(dpToPx(80f).toInt(),dpToPx(80f).toInt(), Bitmap.Config.ARGB_8888)
         val p = Paint(Paint.ANTI_ALIAS_FLAG)
