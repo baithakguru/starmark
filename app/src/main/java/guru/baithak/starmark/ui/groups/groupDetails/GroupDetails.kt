@@ -1,6 +1,8 @@
 package guru.baithak.starmark.ui.groups.groupDetails
 
+import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.v4.app.NavUtils
@@ -11,17 +13,26 @@ import android.util.TimeUtils
 import android.view.MenuItem
 import android.widget.LinearLayout
 import android.widget.Toast
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import guru.baithak.starmark.Helpers.addMemberUrl
 import guru.baithak.starmark.Helpers.groupKey
 import guru.baithak.starmark.Models.Groups
 import guru.baithak.starmark.Models.Person
 import guru.baithak.starmark.R
+import guru.baithak.starmark.ui.newGroup.SelectMembers.AdapterSelectContacts
+import guru.baithak.starmark.ui.newGroup.SelectMembers.ContactSelectedCallback
 import kotlinx.android.synthetic.main.activity_group_details.*
 import kotlinx.android.synthetic.main.viewholder_groups.*
+import org.json.JSONObject
 import java.lang.Exception
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -131,6 +142,65 @@ class GroupDetails : AppCompatActivity() {
             }
 
 
+        }
+
+
+
+        addMemberGroup.setOnClickListener {
+            val frag = GetContact()
+            val listener = object : ContactSelectedCallback{
+                override fun personSelected(person: AdapterSelectContacts.Contact) {
+                    frag.dismiss()
+                    var phoneNo = person.number
+                    phoneNo = phoneNo.replace(" ","").replace("-","")
+                            .replace("(","").replace(")","")
+                            .replace("+91","").replace("\\.","")
+
+
+                    AlertDialog.Builder(this@GroupDetails).setMessage("Do you want to add "+person.name+" to group?").setPositiveButton("Yes",
+                            object:DialogInterface.OnClickListener{
+                                override fun onClick(dialog: DialogInterface?, which: Int) {
+                                    val progress = ProgressDialog(this@GroupDetails)
+                                    progress.setCancelable(false)
+                                    progress.setMessage("Please wait while we add member to group")
+                                    progress.show()
+                                    val params = JSONObject()
+                                    params.put("groupId",groupId)
+                                    params.put("phone",phoneNo)
+                                    val request = JsonObjectRequest(Request.Method.POST, addMemberUrl,params,
+                                            object : Response.Listener<JSONObject>{
+                                                override fun onResponse(response: JSONObject?) {
+                                                    response?.let {
+                                                        if(it.getString("status").equals("success")){
+                                                            Toast.makeText(this@GroupDetails,"Member will be added successfully",Toast.LENGTH_SHORT).show()
+                                                        }else{
+                                                            Toast.makeText(this@GroupDetails,it.getString("error"),Toast.LENGTH_SHORT).show()
+                                                        }
+                                                    }
+
+
+                                                    progress.dismiss()
+                                                }
+                                            },
+                                            object :Response.ErrorListener {
+                                                override fun onErrorResponse(error: VolleyError?) {
+                                                    Toast.makeText(this@GroupDetails, "Some error occured try again", Toast.LENGTH_SHORT).show()
+                                                    progress.dismiss()
+                                                }
+                                            })
+                                    Volley.newRequestQueue(this@GroupDetails).add(request)
+                                }
+                            }).setNegativeButton("No",object:DialogInterface.OnClickListener {
+                        override fun onClick(dialog: DialogInterface?, which: Int) {
+                            dialog!!.dismiss()
+                        }
+                    }).setCancelable(false).show()
+
+
+                }
+            }
+            frag.listener = listener
+            frag.show(supportFragmentManager,"GET_PERSON")
         }
 
 

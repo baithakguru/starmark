@@ -11,6 +11,7 @@ const val groupName : String = "groupName"
 const val groupKey : String = "groupId"
 const val userExistsUrl : String = "https://us-central1-starmark-1-a2e6f.cloudfunctions.net/getUserDetails"
 const val createGroupUrl : String = "https://us-central1-starmark-1-a2e6f.cloudfunctions.net/createGroup"
+const val addMemberUrl : String = "https://us-central1-starmark-1-a2e6f.cloudfunctions.net/addMember"
 const val userName : String = "userNamePassingIntents"
 const val FILE_PICKER_REQUEST = 54
 val objectTypes = arrayListOf<String>("imgs","docs","audio","draw","video","contact")

@@ -30,26 +30,31 @@ class UploadFile(val basePath:String, val callBack:ResultUpload,val c:Context){
     var uri:String?=null
     var type:String ="url"
     var path:String = basePath
-    val pattern = "dd-MMM-YY HH:mm:ss"
+    val pattern = "dd-MMM-YY_HH:mm:ss"
 
-    fun getMimeType(context: Context, uri: Uri): String? {
-        val extension: String?
+    companion object{
 
-        //Check uri format to avoid null
-        if (uri.scheme == ContentResolver.SCHEME_CONTENT) {
-            //If scheme is a content
-            val mime = MimeTypeMap.getSingleton()
-            extension = mime.getExtensionFromMimeType(context.contentResolver.getType(uri))
-        } else {
-            //If scheme is a File
-            //This will replace white spaces with %20 and also other special characters. This will avoid returning null values on file name with spaces and special characters.
-            extension = MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(File(uri.path)).toString())
 
+        fun getMimeType(context: Context, uri: Uri): String? {
+            val extension: String?
+
+            //Check uri format to avoid null
+            if (uri.scheme == ContentResolver.SCHEME_CONTENT) {
+                //If scheme is a content
+                val mime = MimeTypeMap.getSingleton()
+                extension = mime.getExtensionFromMimeType(context.contentResolver.getType(uri))
+            } else {
+                //If scheme is a File
+                //This will replace white spaces with %20 and also other special characters. This will avoid returning null values on file name with spaces and special characters.
+                extension = MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(File(uri.path)).toString())
+
+            }
+
+            return extension
         }
 
-        return extension
-    }
 
+    }
 
     fun getFileName():String{
         var name= file!!.lastPathSegment

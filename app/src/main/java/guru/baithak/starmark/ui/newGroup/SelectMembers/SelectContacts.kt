@@ -17,6 +17,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import guru.baithak.starmark.R
 import guru.baithak.starmark.Helpers.permissionContacts
 import guru.baithak.starmark.Helpers.selectedIntent
@@ -134,7 +135,7 @@ class SelectContacts : AppCompatActivity() {
 
 //        progress!!.dismiss()
 //        Snackbar.make(rootSearch,"Trying adapter",Snackbar.LENGTH_LONG).show()
-        var  adapterAllContacts = AdapterSelectContacts(this, allContacts, callback)
+        val adapterAllContacts = AdapterSelectContacts(this, allContacts, callback)
         allContactsRecycler.adapter = adapterAllContacts
 //        totalContacts = adapterAllContacts.itemCount
         adapterAllContacts.notifyDataSetChanged()
@@ -143,6 +144,10 @@ class SelectContacts : AppCompatActivity() {
 
         selectedCountToolbar.text = String.format("Selected %d from %d",0,totalContacts)
         fabFinalizeGroup.setOnClickListener{v->
+            if(adapterForSelected.selected.size<1){
+                Toast.makeText(this,"Please select atleast one member",Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             val i = Intent(this,NewGroup::class.java)
             i.putParcelableArrayListExtra(selectedIntent,adapterForSelected.selected)
             startActivity(i)
