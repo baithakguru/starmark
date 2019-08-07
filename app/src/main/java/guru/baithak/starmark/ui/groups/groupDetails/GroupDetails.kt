@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.util.TimeUtils
 import android.view.MenuItem
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.android.volley.Request
@@ -110,6 +111,7 @@ class GroupDetails : AppCompatActivity() {
     private fun viewSetter(dataSnapshot: DataSnapshot){
         if(isAdmin){
             leaveGroup.text = "Delete Group"
+            addMemberGroup.visibility = View.VISIBLE
         }
         val date = Date(dataSnapshot.child("created").value as Long)
         Log.i("date",date.toString())

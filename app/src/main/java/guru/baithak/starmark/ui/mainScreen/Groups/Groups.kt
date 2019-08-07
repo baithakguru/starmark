@@ -1,6 +1,7 @@
 package guru.baithak.starmark.ui.mainScreen.Groups
 
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -15,6 +16,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import guru.baithak.starmark.Helpers.lastSeenSharedPref
+import guru.baithak.starmark.Helpers.sharedPref
 import guru.baithak.starmark.Models.Groups
 import guru.baithak.starmark.Models.Topic
 
@@ -22,6 +25,9 @@ import guru.baithak.starmark.R
 import guru.baithak.starmark.ui.newGroup.SelectMembers.SelectContacts
 import kotlinx.android.synthetic.main.fragment_groups.*
 import java.lang.Exception
+import java.sql.Time
+import java.util.*
+import kotlin.collections.ArrayList
 
 class Groups : Fragment() {
 
@@ -37,6 +43,9 @@ class Groups : Fragment() {
 
     fun viewSetter(){
         try {
+            groups.sortByDescending {
+                it.lastModifiedAt
+            }
             groupsRecycler.adapter = GroupsAdapter(context!!, groups)
             groupsRecycler.layoutManager = LinearLayoutManager(context)
         }catch (e:Exception){
@@ -96,6 +105,11 @@ class Groups : Fragment() {
                        childData!!.isActive = child.child("isActive").value as Boolean
                        childData.groupKey = child.key
                        Log.i("group get",child.key)
+                       if(child.child("lastModifiedAt").exists()){
+                           if(child.child("lastModifiedAt").value as Long > context!!.getSharedPreferences(sharedPref,Context.MODE_PRIVATE).getLong(lastSeenSharedPref,0)){
+                               childData.notify=true
+                           }
+                       }
                        groups.add(childData)
                    }catch (e:Exception){
 
@@ -112,5 +126,8 @@ class Groups : Fragment() {
 
     }
 
-
+    override fun onPause() {
+        super.onPause()
+        (context!!).getSharedPreferences(sharedPref,Context.MODE_PRIVATE).edit().putLong(lastSeenSharedPref,Date().time).apply()
+    }
 }

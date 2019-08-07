@@ -69,7 +69,23 @@ class GroupsAdapter(c : Context , groups : ArrayList<Groups>) : RecyclerView.Ada
             p0.lastActive.visibility=View.GONE
         }
 
-        val isMuted : Boolean = groups[p1].isMuted!!
+        p0.item.setOnClickListener { v ->
+            if ((groups[p1].isActive)) {
+                val i = Intent(c, EachGroup::class.java)
+                val g = groups[p1]
+                g.notify = false
+                notifyItemChanged(p1)
+                i.putExtra(groupName, g)
+                i.putExtra(groupKey, g.groupKey)
+                c.startActivity(i)
+            } else {
+                Toast.makeText(c, "You are no longer member of this group", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
+
+            val isMuted : Boolean = groups[p1].isMuted!!
         val isNoti : Boolean = groups[p1].notify!!
 
         if(isMuted){
@@ -114,17 +130,8 @@ class ViewHolderGroups(val item : View,val c:Context,val callbacks: DeleteGroup)
     val isNoti : View = item.findViewById(R.id.groupIsNotiAvail)
     val icon :ImageView = item.findViewById(R.id.groupIcon)
     init {
-        item.setOnClickListener{v->
-            if(((item.tag as Groups).isActive)){
-                val i = Intent(c, EachGroup::class.java)
-                i.putExtra(groupName,item.tag as Groups)
-                i.putExtra(groupKey,(item.tag as Groups).groupKey)
-                c.startActivity(i)
-            }else{
-                Toast.makeText(c,"You are no longer member of this group",Toast.LENGTH_SHORT).show()
-            }
 
-        }
+
         item.setOnLongClickListener(object :View.OnLongClickListener{
             override fun onLongClick(v: View?): Boolean {
                 if(((v!!.tag as Groups).isActive)){

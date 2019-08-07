@@ -5,6 +5,7 @@ package guru.baithak.starmark.Helpers
 const val permissionContacts : Int = 44
 const val sharedPref : String = "sharedPref"
 const val userNameSharedPref : String = "username"
+const val lastSeenSharedPref : String = "lastSeen"
 
 const val selectedIntent : String = "SelectedContacts"
 const val groupName : String = "groupName"

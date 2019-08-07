@@ -138,6 +138,7 @@
                     android:layout_weight="5"
                     android:id="@+id/addMemberGroup"
                     android:textSize="18sp"
+                    android:visibility="invisible"
                     android:textColor="@color/colorPrimary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
