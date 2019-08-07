@@ -70,11 +70,11 @@ class GroupsAdapter(c : Context , groups : ArrayList<Groups>) : RecyclerView.Ada
         }
 
         p0.item.setOnClickListener { v ->
-            if ((groups[p1].isActive)) {
+            val g = groups[p1]
+            g.notify = false
+            notifyDataSetChanged()
+            if ((g.isActive)) {
                 val i = Intent(c, EachGroup::class.java)
-                val g = groups[p1]
-                g.notify = false
-                notifyItemChanged(p1)
                 i.putExtra(groupName, g)
                 i.putExtra(groupKey, g.groupKey)
                 c.startActivity(i)
