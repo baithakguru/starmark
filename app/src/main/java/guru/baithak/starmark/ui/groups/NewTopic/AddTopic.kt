@@ -28,6 +28,7 @@ import guru.baithak.starmark.Models.Groups
 
 import guru.baithak.starmark.R
 import guru.baithak.starmark.ui.groups.Notifications.Notifications
+import guru.baithak.starmark.ui.groups.Topics.AllTopics
 import guru.baithak.starmark.ui.groups.Topics.ExistingTopics
 import kotlinx.android.synthetic.main.activity_each_group.*
 import kotlinx.android.synthetic.main.fragment_add_topic.*
@@ -233,8 +234,8 @@ class AddTopic : Fragment() {
                         view?.let { it1 ->
                             Snackbar.make(it1, "Topic Added Successfully", Snackbar.LENGTH_LONG).show()
                             val arg = Bundle()
-                            arg.putString(groupKey,group?.groupKey)
-                            val topics = ExistingTopics()
+                            arg.putString(groupKey,group!!.groupKey!!)
+                            val topics = AllTopics()
                             topics.arguments = arg
 
                             fragmentManager!!.beginTransaction().replace(R.id.eachTopicFragment, topics).commit()

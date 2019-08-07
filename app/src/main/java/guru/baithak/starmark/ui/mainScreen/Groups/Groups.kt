@@ -91,11 +91,15 @@ class Groups : Fragment() {
             override fun onDataChange(p0: DataSnapshot) {
                 groups.clear()
                 for(child in p0.children){
-                    val childData: Groups? = child.getValue(Groups::class.java)
-                    childData!!.isActive = child.child("isActive").value as Boolean
-                    childData.groupKey = child.key
-                    Log.i("group get",child.key)
-                    groups.add(childData)
+                   try {
+                       val childData: Groups? = child.getValue(Groups::class.java)
+                       childData!!.isActive = child.child("isActive").value as Boolean
+                       childData.groupKey = child.key
+                       Log.i("group get",child.key)
+                       groups.add(childData)
+                   }catch (e:Exception){
+
+                   }
                 }
 
                 Log.i("Data",p0.toString())

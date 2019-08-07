@@ -108,7 +108,9 @@ class Files : Fragment() {
 //                    Log.i("keyTopic",t.getValue(String::class.java))
 //                    topics.put(t.getValue(String::class.java)!!,t.key!!)
 //                }
-                progress.dismiss()
+                try {
+                    progress.dismiss()
+                }catch (e:Exception){}
                 getFiles(p0,"")
 //                for(eachTopic in p0.child("files").children){
 //                    for (upload in eachTopic.children) {

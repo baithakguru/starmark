@@ -51,9 +51,11 @@ class ExistingTopics : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        key = arguments!!["groupKey"] as String
-        keySubject = arguments!!["subjectKey"] as String
-        name = arguments!!["groupName"] as String
+        arguments?.let {
+            key = it["groupKey"] as String
+            name = it["groupName"] as String
+            keySubject = it["subjectKey"] as String
+        }
         return inflater.inflate(R.layout.fragment_existing_topics, container, false)
     }
 
