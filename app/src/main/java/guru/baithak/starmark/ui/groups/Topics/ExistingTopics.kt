@@ -94,6 +94,10 @@ class ExistingTopics : Fragment() {
                         (it.adapter as ExpandAdapter).details = details
                         (it.adapter as ExpandAdapter).stars = stars
                         (it.adapter as ExpandAdapter).notifyDataSetChanged()
+
+                        it.adapter = (ExpandAdapter(context!!, details, true,
+                                key+"/topics/"+keySubject,stars,""))
+                        it.layoutManager = LinearLayoutManager(context)
                     }
                 }
             }

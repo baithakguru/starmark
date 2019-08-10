@@ -117,7 +117,11 @@ class GroupDetails : AppCompatActivity() {
         Log.i("date",date.toString())
         val dateFormat = SimpleDateFormat("dd MMM yy").format(date)
 
-
+        if(dataSnapshot.hasChild("invited")){
+            invitedCount.text = String.format("%s members invited",dataSnapshot.child("invited").value.toString())
+        }else{
+            invitedCount.visibility = View.GONE
+        }
         groupDetails.text =  String.format("%d members\nCreator: %s\nCreated at: %s",memberList.size,dataSnapshot.child("createdBy").value,dateFormat)
         var desc = "No description available"
         if(dataSnapshot.child("desc").exists() and !(dataSnapshot.child("desc").value as String).trim().isEmpty()){

@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.VolleyError
@@ -82,9 +83,10 @@ class AddTopic : Fragment() {
         }
 
 //        topics.add(Course("Select ","Select ","Select ","Select ","Select"))
+        topics.add(Course("Amity University","Automation","Selenium","Training 1","Selenium 1"))
         topics.add(Course("Mumbai","BE","COMPS","4th","COA"))
-        topics.add(Course("Univesity","Degree","Course","sem","sub"))
         topics.add(Course("Mumbai","BE","COMPS","4th","DBMS"))
+        topics.add(Course("Mumbai","BE","COMPS","4th","Software Testing"))
         topics.add(Course("Pune","BE","COMPS Pune","4th","COA"))
 
         val universitySet = LinkedHashSet<String>()
@@ -249,7 +251,7 @@ class AddTopic : Fragment() {
                     Response.ErrorListener {
                         view?.let { it1 -> Snackbar.make(it1, "Error Adding Topic", Snackbar.LENGTH_LONG).show() }
                     })
-
+        jsonRequest.retryPolicy=DefaultRetryPolicy(0,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         Volley.newRequestQueue(context!!).add(jsonRequest)
     }
 

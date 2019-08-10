@@ -40,6 +40,7 @@ class ExpandAdapter(val c:Context,var details:ArrayList<TopicsCollection>,val is
     }
 
     override fun onBindViewHolder(p0: EachView, p1: Int) {
+        p0.setIsRecyclable(false)
         if(isTop){
             p0.head.visibility = View.VISIBLE
             p0.text.visibility = View.GONE

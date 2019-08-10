@@ -26,14 +26,14 @@
             />
 
         <ImageView
-            android:visibility="gone"
+            android:visibility="visible"
             android:id="@+id/imageView2"
             android:layout_width="349dp"
             android:layout_height="137dp"
             android:adjustViewBounds="true"
             android:padding="15dp"
             android:scaleType="fitStart"
-            app:srcCompat="@drawable/main_logo_alt" />
+            app:srcCompat="@drawable/logo_low" />
 
     </FrameLayout>
 

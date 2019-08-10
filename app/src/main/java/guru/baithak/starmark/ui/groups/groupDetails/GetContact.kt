@@ -1,10 +1,13 @@
 package guru.baithak.starmark.ui.groups.groupDetails
 
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
@@ -39,9 +42,17 @@ class GetContact : DialogFragment() {
         return inflater.inflate(R.layout.fragment_get_contact, container, false)
     }
 
+
+
+    fun hasPermissions():Boolean{
+        return ContextCompat.checkSelfPermission(context!!, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         allContacts.clear()
+        if(!hasPermissions()){
+
+        }
         getContacts()
         val adapter = AdapterSelectContacts(context!!,allContacts,listener!!)
         selectSingleContact.adapter = adapter

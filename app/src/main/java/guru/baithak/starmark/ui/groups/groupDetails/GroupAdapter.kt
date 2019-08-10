@@ -1,5 +1,6 @@
 package guru.baithak.starmark.ui.groups.groupDetails
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -46,12 +47,17 @@ class GroupAdapter(val c:Context,val members:ArrayList<Person>,val isAdmin:Boole
     }
 
     fun removeUser(position:Int){
+        val progress = ProgressDialog(c)
+        progress.setMessage("Please wait while we remove user")
+        progress.setTitle("Hold on...")
+        progress.show()
         val uid = members[position].userKey
         val path = "groups/"+groupId+"/members/avail/"+
                 uid+"/remove"
-        FirebaseDatabase.getInstance().getReference(path).setValue(true).addOnCanceledListener {
+        FirebaseDatabase.getInstance().getReference(path).setValue(true).addOnCompleteListener {
             members.removeAt(position)
             notifyItemRemoved(position)
+            progress.dismiss()
             Toast.makeText(c,"Member Removed",Toast.LENGTH_SHORT).show()
         }
 

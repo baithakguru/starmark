@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginEnd="16dp"
     android:layout_marginBottom="8dp">
     <RelativeLayout
+        android:layout_gravity="center_vertical"
         android:layout_width="match_parent"
+        android:background="@drawable/border"
+        android:minHeight="65dp"
         android:layout_height="wrap_content">
 
         <TextView
@@ -14,7 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="This is subtopic"
+            android:layout_marginEnd="8dp"
             android:visibility="gone"
+            android:layout_toStartOf="@id/starCount"
             android:layout_centerVertical="true"
             android:id="@+id/topicNameHead"
             />
@@ -55,6 +62,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/innerExpandable"
         android:visibility="gone"/>
+
 
 
 </LinearLayout>

@@ -19,7 +19,7 @@
         android:scaleY="3" />
 
     <ImageView
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/imageView3"
         android:layout_width="43dp"
         android:layout_height="34dp"
@@ -32,7 +32,7 @@
         android:layout_marginEnd="353dp"
         android:layout_marginBottom="612dp"
         android:scaleType="fitStart"
-        app:srcCompat="@drawable/main_logo_alt" />
+        app:srcCompat="@drawable/logo_low" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
-                android:text="Bhuri or any name"
+                android:text="Your Name"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"
                 android:textStyle="bold" />
